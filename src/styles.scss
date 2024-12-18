@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+.border {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dragging {
+    cursor: grabbing;
+}
+
+.moving {
+    cursor: move;
+}

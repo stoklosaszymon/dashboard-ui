@@ -1,0 +1,61 @@
+.dashboard {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    box-sizing: border-box;
+    align-content: flex-start;
+}
+
+.drag-handle {
+    color: #ccc;
+    cursor: move;
+    width: 24px;
+    height: 24px;
+}
+
+.widget {
+    min-width: 300px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    resize: both;
+    max-width: 100%;
+    margin: 10px;
+    background-color: white;
+    transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+                0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.widget-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.widget-content {
+  height: 100%;
+  width: 100%;
+}
+
+.widget:active {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Animate an item that has been dropped. */
+.cdk-drag-animating {
+  transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+}

@@ -1,0 +1,171 @@
+$starFieldWidth: 2560;
+$starFieldHeight: 2560;
+$starStartOffset: 600px;
+
+$starOneScrollDuration: 10000s;
+$starTwoScrollDuration: 10000s;
+$starThreeScrollDuration: 1000s;
+$numStarOneStars: 1000;
+$numStarTwoStars: 600;
+$numStarThreeStars: 100;
+$numComet: 10;
+
+/* Realistic Day and Night Background */
+.container {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.day-sky {
+   background: linear-gradient(to bottom, #1a1627 0%, hsl(247, 47%, 25%) 100%);
+}
+
+.night-sky {
+    background: #87CEEB; /* Light blue sky background */
+}
+
+.clouds {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url('./assets/cloud.png');
+    animation: animate-cloud 120s infinite;
+}
+
+.sun {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #FFD700 30%, #ffc700 70%);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 0 30px 15px rgba(255, 215, 0, 0.8), 
+                0 0 60px 30px rgba(255, 140, 0, 0.6);
+    animation: glow 3s infinite alternate;
+    top: 10px;
+}
+
+.moon {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle at 30% 30%, #fff 20%, #ddd 60%, #bbb 100%);
+    border-radius: 50%;
+    box-shadow: 
+      0 0 60px 20px rgba(255, 255, 255, 0.5), /* Glow effect */
+      10px 10px 5px rgba(0, 0, 0, 0.2) inset; /* Inner shadow */
+    position: absolute;
+    top: 10px;
+}
+
+@keyframes animStar {
+    from {
+      transform: translateY(0px);
+    }
+    to {
+      transform: translateY(-#{2560}px)
+        translateX(-#{2560}px);
+    }
+  }
+
+@function create-stars($n) {
+    $stars: "#{random(2560)}px #{random(2560)}px #FFF";
+  
+    @for $i from 2 through $n {
+      $stars: "#{$stars} , #{random(2560)}px #{random(2560)}px #FFF";
+    }
+    @return unquote($stars);
+}
+
+.info-container {
+    width: 85%;
+    height: 70%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+
+    align-self: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    z-index: 3;
+}
+
+.left {
+    width: 30%;
+    height: 50%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottom {
+    width: 100%;
+    height: 50%;
+}
+
+.temperature {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 30px 15px rgba(255, 215, 0, 0.8), 
+                    0 0 60px 30px rgba(255, 140, 0, 0.6);
+        transform: scale(1);
+    }
+    100% {
+        box-shadow: 0 0 50px 25px rgba(255, 215, 0, 1), 
+                    0 0 80px 40px rgba(255, 140, 0, 0.8);
+        transform: scale(1.1);
+    }
+}
+
+@keyframes animate-cloud {
+    0% {
+        background-position: 0px;
+    }
+    100% {
+        background-position: 5440px;
+    }
+}
+
+@mixin star-template($numStars, $starSize, $scrollSpeed) {
+    z-index: 1;
+    width: $starSize;
+    height: $starSize;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: create-stars($numStars);
+    animation: animStar $scrollSpeed linear infinite;
+    &:after {
+      content: " ";
+      top: -$starStartOffset;
+      width: $starSize;
+      height: $starSize;
+      border-radius: 50%;
+      position: absolute;
+      background: transparent;
+      box-shadow: create-stars($numStars);
+    }
+  }
+
+  .stars {
+    @include star-template($numStarOneStars, 1px, $starOneScrollDuration);
+  }
+
+  .stars2 {
+    @include star-template($numStarTwoStars, 2px, $starTwoScrollDuration);
+  }
+  .stars3 {
+    @include star-template($numStarThreeStars, 3px, $starThreeScrollDuration);
+  }
