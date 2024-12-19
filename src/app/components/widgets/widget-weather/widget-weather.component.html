@@ -1,5 +1,14 @@
-<div class="container" [ngClass]="isDay() ? 'night-sky' : 'day-sky'">
-    @if(isDay()) {
+@if(isLoading()) {
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+} @else {
+<div class="container" [ngClass]="containerClasses()">
+
+    @if(isRaining()) {
+    <app-rain></app-rain>
+    }
+    @else if(isDay() && !isRaining()) {
     <div class="sun"></div>
     } @else {
     <div class="moon"></div>
@@ -7,19 +16,19 @@
     <div class="stars2"></div>
     <div class="stars3"></div>
     }
-    @if(showClouds) {
+    @if(showClouds && !isRaining()) {
     <div class="clouds" [ngStyle]="{ 'opacity': isDay() ? 1 : 0.4 }"></div>
     }
-    <section class="info-container" [ngStyle]="{ 'color': isDay() ? '#000000' : '#ddd'}">
+    <section class="info-container" [ngClass]=" isRaining() ? 'abss' :''"
+        [ngStyle]="{ 'color': isDay() ? '#000000' : '#ddd'}">
         <div class="top">
             <div>
-
                 <div class="date">{{dayOfWeek()}} {{computedTime()}}</div>
                 <div class="temperature">
                     {{temperature()}}&deg;C
                 </div>
             </div>
-            <div style="align-items: flex-start; font-size: 12px">
+            <div style="align-items: flex-start; font-size: 10px">
                 <span>
                     Precipitation: {{details().precipitation}}%
                 </span>
@@ -42,7 +51,7 @@
                         {{day.day}}
                     </div>
                     <div class="icon">
-                        <img src="{{day.img}}" style="width: 60px; height: 60px">
+                        <img src="{{day.img}}">
                     </div>
                     <div class="minmax">
                         <span>
@@ -58,3 +67,4 @@
         </div>
     </section>
 </div>
+}

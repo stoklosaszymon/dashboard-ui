@@ -1,0 +1,36 @@
+  
+  #wrap-texture{
+    position: relative;
+    width: 100%;
+    height: 200%;
+    overflow: hidden;
+  }
+  
+  #canvas2 {
+      /* make the canvas wrapper fits the document */
+      position: absolute;
+      top: -100px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+  }
+
+  #canvas2 > canvas {
+    width:200%;
+    height: 200%;
+    overflow: hidden;
+  }
+  
+  .plane {
+      /* define the size of your plane */
+      width: 100vw;
+      height: 100vh;
+      max-height: 100%;
+  }
+  
+  .plane img {
+      /* hide the img element */
+      display: none;
+  }
+

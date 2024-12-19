@@ -18,13 +18,14 @@ export class DashboardComponent {
 
   editEffect = effect(() => {
     if (this.editMode()) {
+      this.clearResizeObserver();
       this.setUpResizeObserver();
     }
   })
 
   widgets = signal([
     {
-      name: 'Weather', config: {
+      name: 'weather', config: {
         width: '700px',
         height: '400px'
       }
@@ -57,9 +58,10 @@ export class DashboardComponent {
       this.observer = new ResizeObserver(entries => {
         let element = entries[0].target;
         let widgetId = element.attributes.getNamedItem("id")?.textContent;
+        console.log('resize', widgetId);
         let widget = this.widgets().find(widget => widget.name === widgetId?.replace('widget-', ''));
         if (widget?.config) {
-          widget.config = { width: `${element.scrollWidth}px`, height: `${element.scrollHeight}px` }
+          //widget.config = { width: `${element.scrollWidth}px`, height: `${element.scrollHeight}px` }
         }
       });
 
