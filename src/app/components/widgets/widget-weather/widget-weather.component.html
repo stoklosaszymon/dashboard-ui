@@ -1,5 +1,5 @@
-<div class="container" [ngClass]="isDay ? 'night-sky' : 'day-sky'">
-    @if(isDay) {
+<div class="container" [ngClass]="isDay() ? 'night-sky' : 'day-sky'">
+    @if(isDay()) {
     <div class="sun"></div>
     } @else {
     <div class="moon"></div>
@@ -8,17 +8,53 @@
     <div class="stars3"></div>
     }
     @if(showClouds) {
-    <div class="clouds" [ngStyle]="{ 'opacity': isDay ? 1 : 0.4 }"></div>
+    <div class="clouds" [ngStyle]="{ 'opacity': isDay() ? 1 : 0.4 }"></div>
     }
-    <section class="info-container" [ngStyle]="{ 'color': isDay ? '#000000' : '#ddd'}">
-        <div class="left">
-            <div class="date">{{dayOfWeek()}} {{computedTime()}}</div>
-            <div class="temperature">
-                {{temperature()}}&deg;C
+    <section class="info-container" [ngStyle]="{ 'color': isDay() ? '#000000' : '#ddd'}">
+        <div class="top">
+            <div>
+
+                <div class="date">{{dayOfWeek()}} {{computedTime()}}</div>
+                <div class="temperature">
+                    {{temperature()}}&deg;C
+                </div>
+            </div>
+            <div style="align-items: flex-start; font-size: 12px">
+                <span>
+                    Precipitation: {{details().precipitation}}%
+                </span>
+                <span>
+                    Wind Speed: {{details().windSpeed}}km/h
+                </span>
+                <span>
+                    Humidity: {{details().humidity}}%
+                </span>
             </div>
         </div>
         <div class="bottom">
-
+            <div class="chart-container">
+                <canvas id="canvas"></canvas>
+            </div>
+            <div class="daily-container">
+                @for( day of dailyTempretures; track day) {
+                <div class="daily">
+                    <div class="day">
+                        {{day.day}}
+                    </div>
+                    <div class="icon">
+                        <img src="{{day.img}}" style="width: 60px; height: 60px">
+                    </div>
+                    <div class="minmax">
+                        <span>
+                            {{day.max}}&deg;C
+                        </span>
+                        <span>
+                            {{day.min}}&deg;C
+                        </span>
+                    </div>
+                </div>
+                }
+            </div>
         </div>
     </section>
 </div>
