@@ -66,8 +66,6 @@ export class WidgetWeatherComponent {
     time: []
   }
 
-  data = new Subject<any>();
-
   constructor(private api: ApiService) {
     Chart.register(ChartDataLabels);
   }
@@ -199,7 +197,7 @@ export class WidgetWeatherComponent {
 
   containerClasses() {
     let classes = this.isDay() ? 'night-sky' : 'day-sky';
-    classes += this.isRaining() ? ' zzz' : ''
+    classes += this.isRaining() ? ' zzz white' : ''
     return classes;
   }
 }
