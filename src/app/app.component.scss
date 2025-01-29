@@ -1,21 +1,7 @@
 .container {
-  display: flex;
   width: 100%;
   height: fit-content;
   min-height: 100vh;
-}
-
-.container > * {
-  margin: 10px;
-}
-
-.widgets-list {
-  display: block;
-  width: 14vw;
-}
-
-.dashboard {
-  width: 100%;
-  flex-grow: 1;
+  align-items: flex-start;
 }
 

@@ -1,12 +1,12 @@
-<button (click)="showWidgetsList()">asd</button>
+<app-menu></app-menu>
 <div class="container">
-  @if(editMode) {
+  @if( editMode() ) {
   <div #widgetsList class="widgets-list">
     <app-widgets-list></app-widgets-list>
   </div>
   }
   <div class="dashboard">
-    <app-dashboard [editMode]="editMode"></app-dashboard>
+    <app-dashboard></app-dashboard>
   </div>
 </div>
 <router-outlet />

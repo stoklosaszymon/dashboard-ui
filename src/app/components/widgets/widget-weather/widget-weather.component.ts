@@ -52,6 +52,8 @@ export class WidgetWeatherComponent {
     }
   })
 
+  canvasId = this.randomId(6);
+
   ngAfterViewInit() {
 
     if (this.isRaining()) {
@@ -72,7 +74,7 @@ export class WidgetWeatherComponent {
 
   ngOnInit() {
     this.fetchWeatherData();
-    Chart.defaults.color = "#fff";
+    Chart.defaults.color = "#bbb";
   }
 
   getLocation() {
@@ -110,13 +112,16 @@ export class WidgetWeatherComponent {
           this.isRaining.set(true);
         }
 
-        this.chartData.temperatures = response.hourly.temperature_2m.filter((_, index) => index % 3 == 0).splice(0, 24);
-        this.chartData.time = response.hourly.time.filter(t => {
+        this.chartData.time = response.hourly.time.filter((t, i) => {
           let date = new Date(t);
           let now = new Date();
-          return date.getHours() >= now.getHours() || date.getDate() > now.getDate()
+           if (date >= now && i % 3 == 0) {
+            this.chartData.temperatures.push(response.hourly.temperature_2m[i]);
+            return true
+           }
+          return false
         })
-          .splice(0, 24).filter((_, index) => index % 3 == 0).map(date => {
+          .splice(0, 8).map(date => {
             const time = new Date(date);
             return `${('0' + time.getHours()).slice(-2)}:${('0' + time.getMinutes()).slice(-2)}`;
           });
@@ -137,7 +142,7 @@ export class WidgetWeatherComponent {
   }
 
   buildChart() {
-    this.chart = new Chart('canvas', {
+    this.chart = new Chart(this.canvasId, {
       type: 'line',
       data: {
         labels: this.chartData.time,
@@ -168,7 +173,7 @@ export class WidgetWeatherComponent {
             }
           },
           y: {
-            min: 0,
+            min: Math.min(...this.chartData.temperatures),
             display: false,
             grid: {
               drawOnChartArea: false
@@ -193,6 +198,10 @@ export class WidgetWeatherComponent {
       },
     }
     );
+  }
+
+  randomId(len: number) {
+    return Math.random().toString(36).substring(2,len+2);
   }
 
   containerClasses() {

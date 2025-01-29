@@ -3,10 +3,7 @@
         cdkDropListSortingDisabled class="list">
         @for(widget of widgets; track widget) {
         <div class="widget" cdkDrag (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)">
-            {{widget.name}}
-            <div *cdkDragPreview style="width: 300px; height: 300px; overflow: hidden">
                 <ng-container *ngComponentOutlet="widget.component" /> `
-            </div>
         </div>
         }
     </div>

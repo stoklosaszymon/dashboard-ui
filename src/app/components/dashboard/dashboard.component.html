@@ -1,16 +1,11 @@
 <div class="dashboard border" cdkDropList (cdkDropListDropped)="dropWidget($event)" [cdkDropListData]="widgets"
     id="dashboard-widgets" cdkDropListConnectedTo="widgets-list" cdkDropListOrientation="mixed">
-    @for(widget of widgets(); track widget) {
-    <div class="widget border"
-         cdkDrag
-         [ngStyle]="widget.config"
-         (cdkDragStarted)="onDragStart($event)"
-         (cdkDragEnded)="onDragEnd($event)"
-         cdkDragBoundary=".dashboard"
-         #widget
-         id="widget-{{widget.name}}"
-         >
+    @for(widget of widgets(); track widget.id) {
+    <div class="widget border" cdkDrag [ngStyle]="widget.config" (cdkDragStarted)="onDragStart($event)"
+        (cdkDragEnded)="onDragEnd($event)" cdkDragBoundary=".dashboard" #widget id="{{widget.id}}">
 
+
+        @if( editMode() ) {
         <div class="widget-header">
             <div class="drag-handle" cdkDragHandle>
                 <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
@@ -21,10 +16,11 @@
                 </svg>
             </div>
         </div>
+        }
 
 
         <div class="widget-content">
-            <app-widget-wrapper [widget]="widget.name"></app-widget-wrapper>
+            <app-widget-wrapper [widget]="widget.name" [component]="widget.component"></app-widget-wrapper>
         </div>
     </div>
     }

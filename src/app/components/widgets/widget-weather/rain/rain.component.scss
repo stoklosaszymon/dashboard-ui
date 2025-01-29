@@ -7,7 +7,6 @@
   }
   
   #canvas2 {
-      /* make the canvas wrapper fits the document */
       position: absolute;
       top: -100px;
       right: 0;
@@ -23,14 +22,12 @@
   }
   
   .plane {
-      /* define the size of your plane */
       width: 100vw;
       height: 100vh;
       max-height: 100%;
   }
   
   .plane img {
-      /* hide the img element */
       display: none;
   }
 

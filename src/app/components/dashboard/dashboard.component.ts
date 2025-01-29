@@ -1,8 +1,11 @@
-import { Component, ElementRef, effect, input, signal, viewChildren } from '@angular/core';
+import { Component, ElementRef, effect, inject, signal, viewChildren } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetWrapperComponent } from '../widget/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
-import { Subject, delay, map, of, switchMap, tap } from 'rxjs';
+import { Subject, combineLatest, delay, fromEvent, map, of, skip, switchMap, tap } from 'rxjs';
+import { WidgetWeatherComponent } from '../widgets/widget-weather/widget-weather.component';
+import { DashboardService } from '../../dashboard.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,22 +18,25 @@ export class DashboardComponent {
   components = viewChildren<ElementRef<HTMLButtonElement>>('widget');
   observer!: ResizeObserver;
   resize$ = new Subject<ResizeObserverEntry>();
+  dashboardService = inject(DashboardService);
 
-  editMode = input(false);
+  editMode = toSignal(this.dashboardService.editMode$);
 
   editEffect = effect(() => {
     if (this.editMode()) {
-      this.clearResizeObserver();
       this.setUpResizeObserver();
     }
   })
 
   widgets = signal([
     {
-      name: 'weather', config: {
-        width: '700px',
-        height: '400px'
-      }
+      id: 1,
+      name: 'weather',
+      component: WidgetWeatherComponent,
+      config: {
+        width: '350px',
+        height: '265px'
+      },
     }
   ])
 
@@ -40,27 +46,33 @@ export class DashboardComponent {
       this.setUpResizeObserver();
     }
   })
-  
+
   ngOnInit() {
     this.observer = new ResizeObserver(entries => {
       this.resize$.next(entries[0])
-    });
+    })
+
+    const mouseUp$ = fromEvent(document.getElementsByClassName('dashboard')[0], 'mouseup')
 
     this.resize$.pipe(
-      switchMap((entry) => of(entry).pipe(
-      delay(1000),
+      skip(1),
+      switchMap((entry) => combineLatest([of(entry), mouseUp$]).pipe(
+        delay(1000),
+        map( combined => combined[0]),
         map((entry) => {
-          const widgetName = entry.target.attributes.getNamedItem("id")?.textContent;
-          return { name: widgetName ? widgetName : '', element: entry.target }
+          const widgetId = entry.target.attributes.getNamedItem("id")?.textContent;
+          return { id: widgetId, element: entry.target }
         }),
         tap((widget) => {
-          console.log(widget.name);
-          let w = this.widgets().find(w => w.name === widget.name.replace('widget-', ''));
-          if (w?.config) {
-            w.config = { width: `${widget.element.scrollWidth}px`, height: `${widget.element.scrollHeight}px` }
+          if (widget.id) {
+            let index = this.widgets().findIndex(w => w.id === parseInt(widget.id!));
+            let config = { width: `${widget.element.scrollWidth}px`, height: `${widget.element.scrollHeight}px` }
+            let newWidgets = this.widgets();
+            newWidgets.splice(index, 1, { ...this.widgets()[index], config: config });
+            this.widgets.set(newWidgets)
           }
-        })
-      )),
+        }),
+      ))
     ).subscribe({
       next: (entry) => console.log(this.widgets())
     })
@@ -108,7 +120,9 @@ export class DashboardComponent {
       this.widgets.set(newArr);
     } else {
       const widget = {
+        id: this.widgets().length,
         name: event.previousContainer.data[event.previousIndex].name,
+        component: event.previousContainer.data[event.previousIndex].component,
         config: {
           width: '100px',
           height: '100px'
