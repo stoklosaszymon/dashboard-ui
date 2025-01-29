@@ -5,11 +5,12 @@ import { WidgetsListComponent } from './widgets-list/widgets-list.component';
 import { MenuComponent } from './menu/menu.component';
 import { DashboardService } from './dashboard.service';
 import { toSignal } from '@angular/core/rxjs-interop'
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, DashboardComponent, WidgetsListComponent, MenuComponent],
+  imports: [RouterOutlet, DashboardComponent, WidgetsListComponent, MenuComponent, MatTabsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

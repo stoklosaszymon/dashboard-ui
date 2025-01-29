@@ -5,7 +5,9 @@
     padding: 10px;
     box-sizing: border-box;
     align-content: flex-start;
-    background: #dddddd;
+    --tw-gradient-to: rgb(229 231 235 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+    background: linear-gradient(to right bottom, #e5e7eb 50%, rgb(229 231 235 / 0) 100%);
 }
 
 .drag-handle {

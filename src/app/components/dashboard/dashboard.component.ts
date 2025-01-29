@@ -1,4 +1,4 @@
-import { Component, ElementRef, effect, inject, signal, viewChildren } from '@angular/core';
+import { Component, ElementRef, effect, inject, signal, viewChild, viewChildren } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetWrapperComponent } from '../widget/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class DashboardComponent {
   components = viewChildren<ElementRef<HTMLButtonElement>>('widget');
+  dashboard = viewChild<ElementRef<HTMLElement>>('dashboard');
   observer!: ResizeObserver;
   resize$ = new Subject<ResizeObserverEntry>();
   dashboardService = inject(DashboardService);
@@ -52,7 +53,7 @@ export class DashboardComponent {
       this.resize$.next(entries[0])
     })
 
-    const mouseUp$ = fromEvent(document.getElementsByClassName('dashboard')[0], 'mouseup')
+    const mouseUp$ = fromEvent(this.dashboard()?.nativeElement!, 'mouseup')
 
     this.resize$.pipe(
       skip(1),
@@ -66,10 +67,11 @@ export class DashboardComponent {
         tap((widget) => {
           if (widget.id) {
             let index = this.widgets().findIndex(w => w.id === parseInt(widget.id!));
-            let config = { width: `${widget.element.scrollWidth}px`, height: `${widget.element.scrollHeight}px` }
+            let config = { width: `${widget.element.clientWidth}px`, height: `${widget.element.clientHeight}px` }
             let newWidgets = this.widgets();
             newWidgets.splice(index, 1, { ...this.widgets()[index], config: config });
             this.widgets.set(newWidgets)
+            console.log(this.widgets());
           }
         }),
       ))

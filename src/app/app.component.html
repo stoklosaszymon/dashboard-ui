@@ -1,12 +1,17 @@
 <app-menu></app-menu>
 <div class="container">
+  <mat-tab-group>
+  <mat-tab label="First"> 
+    <app-dashboard></app-dashboard>
+  </mat-tab>
+  <mat-tab label="Second">
+    <app-dashboard></app-dashboard>
+  </mat-tab>
+</mat-tab-group>
   @if( editMode() ) {
   <div #widgetsList class="widgets-list">
     <app-widgets-list></app-widgets-list>
   </div>
   }
-  <div class="dashboard">
-    <app-dashboard></app-dashboard>
-  </div>
 </div>
 <router-outlet />

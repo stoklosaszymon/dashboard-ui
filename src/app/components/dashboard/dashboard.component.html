@@ -1,4 +1,4 @@
-<div class="dashboard border" cdkDropList (cdkDropListDropped)="dropWidget($event)" [cdkDropListData]="widgets"
+<div class="dashboard border" #dashboard cdkDropList (cdkDropListDropped)="dropWidget($event)" [cdkDropListData]="widgets"
     id="dashboard-widgets" cdkDropListConnectedTo="widgets-list" cdkDropListOrientation="mixed">
     @for(widget of widgets(); track widget.id) {
     <div class="widget border" cdkDrag [ngStyle]="widget.config" (cdkDragStarted)="onDragStart($event)"
