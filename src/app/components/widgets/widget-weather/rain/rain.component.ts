@@ -163,24 +163,19 @@ export class RainComponent {
       x: 0,
       y: 0
     };
-    // set up our WebGL context and append the canvas to our wrapper
     const webGLCurtain = new Curtains({ container: "canvas2" });
 
-    //webGLCurtain.glContext.getExtension('OES_standard_derivatives');
-
-    // get our plane element
     const planeElement = document.getElementsByClassName("plane")[0];
 
-    // set our initial parameters (basic uniforms)
     const params = {
-      vertexShader: this.shader.vertex, // our vertex shader ID
-      fragmentShader: this.shader.fragment, // our framgent shader ID
+      vertexShader: this.shader.vertex, 
+      fragmentShader: this.shader.fragment, 
       widthSegments: 40,
-      heightSegments: 40, // we now have 40*40*6 = 9600 vertices !
+      heightSegments: 40, 
       uniforms: {
         time: {
-          name: "uTime", // uniform name that will be passed to our shaders
-          type: "1f", // this means our uniform is a float
+          name: "uTime", 
+          type: "1f", 
           value: 0
         },
         resolution: {
@@ -191,27 +186,24 @@ export class RainComponent {
       }
     };
 
-    // create our plane mesh
     const plane = new Plane(webGLCurtain, planeElement, params as any) as any;
 
-    // use the onRender method of our plane fired at each requestAnimationFrame call
     plane.onRender(() => {
-      plane.uniforms.time.value++; // update our time uniform value
-      //plane.uniforms.resolution.value = [innerWidth, innerHeight];
+      plane.uniforms.time.value++; 
     });
 
   };
 }
 
 interface Params {
-  vertexShader: any, // our vertex shader ID
-  fragmentShader: any, // our framgent shader ID
+  vertexShader: any, 
+  fragmentShader: any, 
   widthSegments: any,
-  heightSegments: any, // we now have 40*40*6 = 9600 vertices !
+  heightSegments: any,
   uniforms: {
     time: {
-      name: any, // uniform name that will be passed to our shaders
-      type: any, // this means our uniform is a float
+      name: any, 
+      type: any, 
       value: any
     },
     mousepos: {

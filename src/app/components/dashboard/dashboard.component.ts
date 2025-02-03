@@ -6,6 +6,7 @@ import { Subject, combineLatest, delay, fromEvent, map, of, skip, switchMap, tap
 import { WidgetWeatherComponent } from '../widgets/widget-weather/widget-weather.component';
 import { DashboardService } from '../../dashboard.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { StockWidget } from '../widgets/stock-widget/stock-widget.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,6 +38,15 @@ export class DashboardComponent {
       config: {
         width: '350px',
         height: '265px'
+      },
+    },
+    {
+      id: 2,
+      name: 'temp',
+      component: StockWidget,
+      config: {
+        width: '450px',
+        height: '365px'
       },
     }
   ])
@@ -122,7 +132,7 @@ export class DashboardComponent {
       this.widgets.set(newArr);
     } else {
       const widget = {
-        id: this.widgets().length,
+        id: this.widgets().length + 1,
         name: event.previousContainer.data[event.previousIndex].name,
         component: event.previousContainer.data[event.previousIndex].component,
         config: {
