@@ -8,6 +8,7 @@ import { DashboardService } from '../../dashboard.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StockWidget } from '../widgets/stock-widget/stock-widget.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ExchangeWidgetComponent } from '../widgets/exchange/exchange-widget.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,6 +47,15 @@ export class DashboardComponent {
       id: 2,
       name: 'temp',
       component: StockWidget,
+      config: {
+        width: '450px',
+        height: '365px'
+      },
+    },
+    {
+      id: 3,
+      name: 'exchange',
+      component: ExchangeWidgetComponent,
       config: {
         width: '450px',
         height: '365px'

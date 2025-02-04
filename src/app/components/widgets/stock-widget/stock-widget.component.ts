@@ -14,7 +14,7 @@ Chart.register(annotationPlugin);
     color: rgba(0, 0, 0, .62);">PLN</span>
             </span>
             <span [style]="diff() > 0 ? 'color: green' : 'color: red'">
-                {{diff()}} ({{diffPercent()}}%)dzisiaj
+                {{diff()}} ({{diffPercent()}}%) dzisiaj
             </span>
         </div>
         <div style="height: 50%; width: 100%; position: relative;">
@@ -88,6 +88,9 @@ export class StockWidget {
                         grid: {
                             drawOnChartArea: false,
                             drawTicks: false,
+                        },
+                        ticks : {
+                            maxTicksLimit: 10
                         }
                     },
                     y: {

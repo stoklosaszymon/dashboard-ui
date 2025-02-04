@@ -23,7 +23,6 @@
     transform: scale(1.5);
 }
 
-/* Circular button container */
 .circle-buttons {
     position: absolute;
     width: 100%;
@@ -34,7 +33,6 @@
     position: relative;
 }
 
-/* Button styling */
 .circle-buttons button {
     width: fit-content;
     height: fit-content;
@@ -57,7 +55,6 @@
     opacity: 1;
 }
 
-/* Position buttons dynamically along the arc */
 .circle-buttons button:nth-child(1) {     top: 7%;
     right: 70%; }
 .circle-buttons button:nth-child(2) {     top: 39%;

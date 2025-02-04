@@ -5,6 +5,7 @@ import { NgComponentOutlet } from '@angular/common';
 import { StockWidget } from '../components/widgets/stock-widget/stock-widget.component';
 import { MatIconModule } from '@angular/material/icon';
 import { DashboardService } from '../dashboard.service';
+import { ExchangeWidgetComponent } from '../components/widgets/exchange/exchange-widget.component';
 
 @Component({
   selector: 'app-widgets-list',
@@ -20,6 +21,7 @@ export class WidgetsListComponent {
   widgets = [
     { name: 'Weather', component: WidgetWeatherComponent },
     { name: 'Temp', component: StockWidget },
+    { name: 'exchange', component: ExchangeWidgetComponent}
   ]
 
   onDragStart(event: any): void {
