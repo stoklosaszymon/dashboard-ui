@@ -1,12 +1,15 @@
 <div class="dashboard border" #dashboard cdkDropList (cdkDropListDropped)="dropWidget($event)" [cdkDropListData]="widgets"
-    id="dashboard-widgets" cdkDropListConnectedTo="widgets-list" cdkDropListOrientation="mixed">
+    id="dashboard-{{dashboardId()}}" cdkDropListConnectedTo="widgets-list" cdkDropListOrientation="mixed">
     @for(widget of widgets(); track widget.id) {
-    <div class="widget border" cdkDrag [ngStyle]="widget.config" (cdkDragStarted)="onDragStart($event)"
-        (cdkDragEnded)="onDragEnd($event)" cdkDragBoundary=".dashboard" #widget id="{{widget.id}}">
+    <div class="widget border" [style]="editMode() ? 'resize: both' :  'resize: none'" cdkDrag [ngStyle]="widget.config" (cdkDragStarted)="onDragStart($event)"
+        (cdkDragEnded)="onDragEnd($event)" cdkDragBoundary=".dashboard" #widget id="{{widget.id}}" [cdkDragDisabled]="!editMode()">
 
 
         @if( editMode() ) {
         <div class="widget-header">
+            <div>
+                <mat-icon class="pointer" (click)="removeWidget(widget.id)">delete</mat-icon>
+            </div>
             <div class="drag-handle" cdkDragHandle>
                 <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
                     <path

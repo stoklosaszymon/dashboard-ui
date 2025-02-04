@@ -46,14 +46,13 @@ export class StockWidget {
     })
     max = computed( () => Math.max(...this.chartData()));
     min = computed( () => Math.min(...this.chartData()));
-    length = computed(() => this.chartData().length - 1);
-    last = computed(() => this.chartData()[this.length()]);
+    last = computed(() => this.chartData().at(-1));
     randomValue = computed( () => {
-        const value = this.last() + ((Math.random() * 20) - 10);
+        const value = this.last()! + ((Math.random() * 20) - 10);
         return value < 0 ? 0 : parseFloat(value.toFixed(2));
     })
     open = computed( () => this.chartData()[0] )
-    diff = computed( () => parseFloat((this.last() - this.open()).toFixed(2)))
+    diff = computed( () => parseFloat((this.last()! - this.open()).toFixed(2)))
     diffPercent = computed( () => (((this.diff() * 100) / this.open()).toFixed(2)))
     chart: any;
 

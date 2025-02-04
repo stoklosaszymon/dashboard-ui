@@ -1,4 +1,4 @@
-import { Component, ElementRef, effect, inject, signal, viewChild, viewChildren } from '@angular/core';
+import { Component, ElementRef, effect, inject, input, signal, viewChild, viewChildren } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetWrapperComponent } from '../widget/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
@@ -7,11 +7,12 @@ import { WidgetWeatherComponent } from '../widgets/widget-weather/widget-weather
 import { DashboardService } from '../../dashboard.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StockWidget } from '../widgets/stock-widget/stock-widget.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [WidgetWrapperComponent, CdkDropList, CdkDrag, CdkDragHandle, CommonModule],
+  imports: [WidgetWrapperComponent, CdkDropList, CdkDrag, CdkDragHandle, CommonModule, MatIconModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -21,6 +22,7 @@ export class DashboardComponent {
   observer!: ResizeObserver;
   resize$ = new Subject<ResizeObserverEntry>();
   dashboardService = inject(DashboardService);
+  dashboardId = input();
 
   editMode = toSignal(this.dashboardService.editMode$);
 
@@ -110,6 +112,11 @@ export class DashboardComponent {
         this.observer.observe(widget.nativeElement);
       }
     }
+  }
+
+  removeWidget(id: number) {
+    console.log('widgetId: ', id);
+    this.widgets.set(this.widgets().filter( w => w.id != id));
   }
 
   onDragStart(event: any): void {

@@ -1,5 +1,5 @@
 <div class="container border">
-    <div cdkDropList [cdkDropListData]="widgets" id="widget-list" cdkDropListConnectedTo="dashboard-widgets"
+    <div cdkDropList [cdkDropListData]="widgets" id="widget-list" [cdkDropListConnectedTo]="['dashboard-1', 'dashboard-2']"
         cdkDropListSortingDisabled class="list">
         @for(widget of widgets; track widget) {
         <div class="widget" cdkDrag (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)">
