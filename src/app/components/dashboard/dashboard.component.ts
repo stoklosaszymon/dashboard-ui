@@ -1,5 +1,5 @@
 import { Component, ElementRef, effect, inject, input, signal, viewChild, viewChildren } from '@angular/core';
-import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetWrapperComponent } from '../widget/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
 import { Subject, combineLatest, delay, fromEvent, map, of, skip, switchMap, tap } from 'rxjs';
@@ -9,11 +9,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { StockWidget } from '../widgets/stock-widget/stock-widget.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ExchangeWidgetComponent } from '../widgets/exchange/exchange-widget.component';
+import { Widget } from '../../types/widget';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [WidgetWrapperComponent, CdkDropList, CdkDrag, CdkDragHandle, CommonModule, MatIconModule],
+  imports: [WidgetWrapperComponent, CdkDropList, CommonModule, MatIconModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -25,7 +26,7 @@ export class DashboardComponent {
   dashboardService = inject(DashboardService);
   dashboardId = input();
 
-  editMode = toSignal(this.dashboardService.editMode$);
+  editMode = toSignal(this.dashboardService.editMode$, { initialValue: false });
 
   editEffect = effect(() => {
     if (this.editMode()) {
@@ -33,7 +34,7 @@ export class DashboardComponent {
     }
   })
 
-  widgets = signal([
+  widgets = signal<Widget[]>([
     {
       id: 1,
       name: 'weather',
@@ -81,7 +82,7 @@ export class DashboardComponent {
       skip(1),
       switchMap((entry) => combineLatest([of(entry), mouseUp$]).pipe(
         delay(1000),
-        map( combined => combined[0]),
+        map(combined => combined[0]),
         map((entry) => {
           const widgetId = entry.target.attributes.getNamedItem("id")?.textContent;
           return { id: widgetId, element: entry.target }
@@ -116,7 +117,6 @@ export class DashboardComponent {
   }
 
   setUpResizeObserver(): void {
-
     if (this.editMode()) {
       for (let widget of this.components()) {
         this.observer.observe(widget.nativeElement);
@@ -125,16 +125,7 @@ export class DashboardComponent {
   }
 
   removeWidget(id: number) {
-    console.log('widgetId: ', id);
-    this.widgets.set(this.widgets().filter( w => w.id != id));
-  }
-
-  onDragStart(event: any): void {
-    document.body.classList.add('moving')
-  }
-
-  onDragEnd(event: any): void {
-    document.body.classList.remove('moving')
+    this.widgets.set(this.widgets().filter(w => w.id != id));
   }
 
   dropWidget(event: CdkDragDrop<any>) {
@@ -165,3 +156,4 @@ export class DashboardComponent {
     }
   }
 }
+
