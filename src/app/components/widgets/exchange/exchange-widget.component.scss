@@ -1,0 +1,58 @@
+.container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    container-name: main;
+    container-type: inline-size;
+}
+
+.right {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 65%;
+}
+
+.chart {
+    width: 100%;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    width: 35%;
+}
+
+.left > div > input {
+    margin-left: 5px;
+    font-family: Google Sans, Arial, sans-serif;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.inp {
+    display: flex;
+    flex-direction: column;
+}
+
+.currentRate {
+    font-size: 42px;
+    font-family: Google Sans, Arial, sans-serif;
+}
+
+@container main (width < 400px) {
+    .right {
+        display: none;
+    }
+
+    .left {
+        width: 100%;
+    }
+}

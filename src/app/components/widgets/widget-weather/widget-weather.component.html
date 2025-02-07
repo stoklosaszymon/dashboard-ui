@@ -1,14 +1,11 @@
 @if(isLoading()) {
-    <div class="loader-container">
-        <div class="loader"></div>
-    </div>
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
 } @else {
 <div class="container" [ngClass]="containerClasses()">
 
-    @if(isRaining()) {
-    <app-rain></app-rain>
-    }
-    @else if(isDay() && !isRaining()) {
+    @if(isDay() ) {
     <div class="sun"></div>
     } @else {
     <div class="moon"></div>
@@ -16,10 +13,10 @@
     <div class="stars2"></div>
     <div class="stars3"></div>
     }
-    @if(showClouds && !isRaining()) {
+    @if(showClouds) {
     <div class="clouds" [ngStyle]="{ 'opacity': isDay() ? 1 : 0.4 }"></div>
     }
-    <section class="info-container" [ngClass]=" isRaining() ? 'abss' :''"
+    <section class="info-container"
         [ngStyle]="{ 'color': isDay() ? '#000000' : '#ddd'}">
         <div class="top">
             <div>

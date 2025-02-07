@@ -58,10 +58,10 @@ export class DashboardComponent {
       name: 'exchange',
       component: ExchangeWidgetComponent,
       config: {
-        width: '450px',
+        width: '650px',
         height: '365px'
       },
-    }
+    },
   ])
 
   widgetEffect = effect(() => {
@@ -117,6 +117,7 @@ export class DashboardComponent {
   }
 
   setUpResizeObserver(): void {
+
     if (this.editMode()) {
       for (let widget of this.components()) {
         this.observer.observe(widget.nativeElement);
@@ -125,6 +126,7 @@ export class DashboardComponent {
   }
 
   removeWidget(id: number) {
+    console.log('widgetId: ', id);
     this.widgets.set(this.widgets().filter(w => w.id != id));
   }
 

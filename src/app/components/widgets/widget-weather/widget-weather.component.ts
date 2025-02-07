@@ -5,7 +5,6 @@ import { NgClass, NgStyle } from '@angular/common';
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import weatherJson from './assets/description.json'
-import { RainComponent } from './rain/rain.component';
 
 const URL = 'https://api.open-meteo.com/v1/forecast?current=temperature_2m,rain,relative_humidity_2m,precipitation,wind_speed_10m,is_day,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&hourly=temperature_2m&daily=weather_code,temperature_2m_max,temperature_2m_min';
 
@@ -14,20 +13,19 @@ const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Fri
 @Component({
   selector: 'app-widget-weather',
   standalone: true,
-  imports: [NgClass, NgStyle, RainComponent, RainComponent],
+  imports: [NgClass, NgStyle ],
   templateUrl: './widget-weather.component.html',
   styleUrl: './widget-weather.component.scss'
 })
 export class WidgetWeatherComponent {
 
-  chart: any = [];
+  chart: any;
   date = signal(new Date());
   temperature = signal(0);
-  isRaining = signal(false);
   details = signal({ precipitation: 0, humidity: 0, windSpeed: 0 })
   isDay = signal(false);
   isLoading = signal(true);
-  showClouds = true;
+  showClouds = false;
   computedTime = computed(() => {
     const hours = this.date().getHours();
     const minutes = ('0' + this.date().getMinutes()).slice(-2);
@@ -53,15 +51,6 @@ export class WidgetWeatherComponent {
   })
 
   canvasId = this.randomId(6);
-
-  ngAfterViewInit() {
-
-    if (this.isRaining()) {
-
-      document.getElementsByClassName('container')[0].classList.add('.zzz');
-      document.getElementsByClassName('info-container')[0].classList.add('abss');
-    }
-  }
 
   chartData: { temperatures: number[], time: string[] } = {
     temperatures: [],
@@ -107,10 +96,6 @@ export class WidgetWeatherComponent {
           humidity: response.current.relative_humidity_2m,
           windSpeed: response.current.wind_speed_10m
         })
-
-        if (response.current.precipitation > 50) {
-          this.isRaining.set(true);
-        }
 
         this.chartData.time = response.hourly.time.filter((t, i) => {
           let date = new Date(t);
@@ -206,7 +191,6 @@ export class WidgetWeatherComponent {
 
   containerClasses() {
     let classes = this.isDay() ? 'night-sky' : 'day-sky';
-    classes += this.isRaining() ? ' zzz white' : ''
     return classes;
   }
 }

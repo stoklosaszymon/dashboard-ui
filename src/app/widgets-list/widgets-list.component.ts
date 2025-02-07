@@ -21,7 +21,7 @@ export class WidgetsListComponent {
   widgets = [
     { name: 'Weather', component: WidgetWeatherComponent },
     { name: 'Temp', component: StockWidget },
-    { name: 'exchange', component: ExchangeWidgetComponent}
+    { name: 'exchange', component: ExchangeWidgetComponent }
   ]
 
   onDragStart(event: any): void {

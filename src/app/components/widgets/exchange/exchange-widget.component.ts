@@ -1,79 +1,132 @@
-import { Component, ElementRef, computed, effect, signal, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, ElementRef, computed, signal, viewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 import { Chart } from 'chart.js';
-import { concatMap, interval, of, scan, tap } from 'rxjs';
 
 @Component({
   selector: 'app-exchange',
   standalone: true,
-  imports: [],
+  imports: [MatButtonModule, MatInputModule],
   template: `
-        <div style="height: 100%; width: 100%; position: relative;">
-        <div>
-          @for( int of intervals; track int.name) {
-            <button (click)="setInterval(int.value)">{{int.name}}</button>
-          }
-        </div>
-            <canvas #chart></canvas>
+        <div class="container">
+          <div class="left">
+            <div>
+              <span class="currentRate">{{currentRate()}} PLN</span>
+            </div>
+            <div class="inp">
+              <label for="c-first">Euro</label>
+              <input id="c-first" [value]="from()" (change)="setFrom($event)"/>
+            </div>
+            <div class="inp">
+              <label for="c-second">PLN</label>
+              <input id="c-second" [value]="to()" (change)="calculateRateReverse($event)"/>
+            </div>
+          </div>
+          <div class="right">
+            <div>
+              @for( int of intervals; track int.name) {
+                <button (click)="setInterval(int.value)" mat-raised-button>{{int.name}}</button>
+              }
+            </div>
+            <div class="chart">
+              <canvas #exchangechart></canvas>
+            </div>
+          </div>
         </div>
   `,
-  styles: []
+  styleUrls: ['exchange-widget.component.scss']
 })
 export class ExchangeWidgetComponent {
 
-  chartRef = viewChild<ElementRef<HTMLCanvasElement>>('chart');
-  currencyData = this.generateCurrencyChangeData(new Date(), 30, 4, 0.05);
+  chartRef = viewChild<ElementRef<HTMLCanvasElement>>('exchangechart');
+  currencyData = signal<{date: string, value: number}[]>(this.generateCurrencyData('1m'));
   chart!: Chart;
-
-  intervals: Interval[] = [
-    { name: '1D', value: 1 },
-    { name: '5D', value: 5 },
-    { name: '1M', value: 30 },
-    { name: '1R', value: 365 },
-    { name: '5D', value: 365 * 5 },
+  currentRate = computed( () => this.currencyData().at(-1)?.value);
+  from = signal(1.0);
+  to = computed( () => (this.from() * this.currentRate()!).toFixed(2))
+  intervals: Intervals[] = [
+    { name: '1D', value: '1d' },
+    { name: '5D', value: '5d' },
+    { name: '1M', value: '1m' },
+    { name: '1R', value: '1y' },
+    { name: '5R', value: '5y' },
   ]
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.buildChart();
   }
 
-  generateCurrencyChangeData(
-    startDate: Date,
-    count: number,
-    baseValue: number,
-    fluctuation: number,
-    mode: 1 | 24 = 24 // 1 for hourly, 24 for daily
-  ): { date: string; value: number }[] {
-    const data: { date: string; value: number }[] = [];
-
-    for (let i = 0; i < count; i++) {
-      const currentDate = new Date(startDate);
-
-      if (mode === 1) {
-        currentDate.setHours(startDate.getHours() + i); // Increment by 1 hour
-        data.push({
-          date: currentDate.toISOString().slice(0, 16).replace('T', ' '), // Format as "YYYY-MM-DD HH:mm"
-          value: parseFloat((baseValue + (Math.random() * 2 - 1) * fluctuation).toFixed(2)),
-        });
-      } else {
-        currentDate.setDate(startDate.getDate() + i); // Increment by 1 day
-        data.push({
-          date: currentDate.toISOString().split('T')[0], // Format as "YYYY-MM-DD"
-          value: parseFloat((baseValue + (Math.random() * 2 - 1) * fluctuation).toFixed(2)),
-        });
-      }
-    }
-
-    return data;
+  formatDate(date: Date, interval: Interval): string {
+    const options: Intl.DateTimeFormatOptions =
+      interval === '1d' ? { hour: '2-digit', minute: '2-digit' } :
+        interval === '5d' ? { day: '2-digit', hour: '2-digit', minute: '2-digit' } :
+          interval === '1m' || interval === '1y' ? { month: 'short', day: '2-digit' } :
+            { year: 'numeric', month: 'short', day: '2-digit' }; // 5y
+    return new Intl.DateTimeFormat('en-US', options).format(date);
   }
 
-  setInterval(val: number) {
-    this.currencyData = this.generateCurrencyChangeData(new Date(), val, 4, 0.1);
-    this.chart.data.datasets[0].data = this.currencyData.map(e => e.value);
-    this.chart.data.labels = this.currencyData.map(e => e.date);
+  generateCurrencyData(interval: Interval) {
+    const now = new Date();
+    const data = [];
+    let startDate = new Date(now);
+    let stepMinutes = 5;
+    let numSteps = 0;
+
+    switch (interval) {
+      case '1d':
+        numSteps = (24 * 60) / 5;
+        break;
+      case '5d':
+        numSteps = (5 * 24 * 60) / 20;
+        stepMinutes = 20;
+        break;
+      case '1m':
+        numSteps = 30;
+        stepMinutes = 24 * 60;
+        break;
+      case '1y':
+        numSteps = 365;
+        stepMinutes = 24 * 60;
+        break;
+      case '5y':
+        numSteps = 5 * 52;
+        stepMinutes = 7 * 24 * 60;
+        break;
+    }
+
+    let currentValue = 4;
+
+    for (let i = 0; i < numSteps; i++) {
+      const newDate = new Date(startDate);
+      newDate.setMinutes(startDate.getMinutes() - stepMinutes * i);
+
+      currentValue += (Math.random() * 0.2 - 0.1);
+      currentValue = currentValue > 1 ? currentValue : 1.0;
+      data.push({ date: this.formatDate(newDate, interval), value: parseFloat(currentValue.toFixed(2)) });
+    }
+
+    return data.reverse();
+  }
+
+  setInterval(val: Interval) {
+    if (!this.chart) {
+      return;
+    }
+    this.currencyData.set(this.generateCurrencyData(val));
+    this.chart.data.datasets[0].data = this.currencyData().map(e => e.value);
+    this.chart.data.labels = this.currencyData().map(e => e.date);
+    this.chart!.options!.scales!['y']!.min = Math.min(...this.currencyData().map(e => e.value)) - 4.0;
+    this.chart!.options!.scales!['y']!.max = Math.max(...this.currencyData().map(e => e.value)) + 4.0;
     this.chart.update();
   }
 
+  setFrom(event: Event) {
+    this.from.set( parseFloat((event.target as HTMLInputElement).value));
+  }
+
+  calculateRateReverse(event: Event) {
+    this.from.set( parseFloat((parseFloat((event.target as HTMLInputElement).value) / this.currentRate()!).toFixed(2)) );
+  }
 
   buildChart() {
     const verticalHoverLine = {
@@ -96,10 +149,10 @@ export class ExchangeWidgetComponent {
     this.chart = new Chart(this.chartRef()?.nativeElement!, {
       type: 'line',
       data: {
-        labels: this.currencyData.map(e => e.date),
+        labels: this.currencyData().map(e => e.date),
         datasets: [
           {
-            data: this.currencyData.map(e => e.value),
+            data: this.currencyData().map(e => e.value),
             fill: false,
             pointRadius: 2
           }
@@ -115,23 +168,27 @@ export class ExchangeWidgetComponent {
         scales: {
           x: {
             border: {
-              display: false,
+              display: true,
             },
             grid: {
               drawOnChartArea: false,
             },
             ticks: {
-              maxTicksLimit: 3
-            }
+              maxTicksLimit: 2,
+              display: true
+            },
+            display: true
           },
           y: {
-            min: Math.min(...this.currencyData.map(e => e.value)) - 0.2,
-            max: Math.max(...this.currencyData.map(e => e.value)) + 0.2,
+            min: Math.min(...this.currencyData().map(e => e.value)) - 0.2,
+            max: Math.max(...this.currencyData().map(e => e.value)) + 0.2,
             display: true,
-            position: 'right',
             grid: {
-              drawOnChartArea: false
+              drawOnChartArea: true
             },
+            ticks: {
+              maxTicksLimit: 4
+            }
           }
         },
         plugins: {
@@ -152,7 +209,9 @@ export class ExchangeWidgetComponent {
   }
 }
 
-interface Interval {
+interface Intervals {
   name: string
-  value: number
+  value: Interval
 }
+
+type Interval = '1d' | '5d' | '1m' | '1y' | '5y';

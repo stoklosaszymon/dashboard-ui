@@ -1,4 +1,4 @@
-import { Component, ElementRef, computed, effect, signal, viewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, computed, effect, signal, viewChild } from "@angular/core";
 import { Chart } from "chart.js";
 import annotationPlugin from 'chartjs-plugin-annotation';
 
@@ -17,10 +17,10 @@ Chart.register(annotationPlugin);
                 {{diff()}} ({{diffPercent()}}%) dzisiaj
             </span>
         </div>
-        <div style="height: 50%; width: 100%; position: relative;">
+        <div style="height: 60%; width: 100%; position: relative;">
             <canvas #chart></canvas>
         </div>
-        <div style="width: 100%; height: 25%; display: flex; flex-direction: column; justify-content:center; gap: 5px; flex-wrap: wrap">
+        <div style="font-family: Google Sans, Arial, sans-serif;width: 100%; height: 15%; display: flex; flex-direction: row; justify-content:space-around; gap: 5px; flex-wrap: wrap">
             <span>otwarcie: {{open()}}</span>
             <span>max: {{max()}}</span>
             <span>min: {{min()}}</span>
@@ -29,11 +29,14 @@ Chart.register(annotationPlugin);
     `,
     styles: ['div > span { margin-left: 5px; width: fit-content }']
 })
-export class StockWidget {
+export class StockWidget implements AfterViewInit{
 
     chartRef = viewChild<ElementRef<HTMLCanvasElement>>('chart')
-    time = [`${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')}`];
-    chartData = signal([125.5]);
+    time = [
+        `${new Date().getHours() - 1}:${String(new Date().getMinutes() - 1).padStart(2, '0')}`,
+        `${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')}`
+    ];
+    chartData = signal([125.5, 120.0]);
     chartEff = effect(() => {
         this.chart.data.datasets[0].data = this.chartData();
         this.chart.options.plugins.annotation.annotations.line.yMin = this.last();
@@ -41,6 +44,7 @@ export class StockWidget {
         this.chart.options.plugins.annotation.annotations.line.label.content = `${this.last()}`;
         if (this.time.length > 5) {
             this.chart.options.scales.y.max = this.max() + (0.5 * this.max());
+            this.chart.options.scales.y.min = this.min() - (0.5 * this.max());
         }
         this.chart.update();
     })
@@ -57,11 +61,15 @@ export class StockWidget {
     chart: any;
 
     ngOnInit() {
-        this.buildChart();
+        //this.buildChart();
         setInterval(() => {
             this.time.push(`${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')}`);
             this.chartData.update((val) => [...val, this.randomValue()]);
         }, 1000)
+    }
+
+    ngAfterViewInit(): void {
+        this.buildChart();
     }
 
     buildChart() {
@@ -94,7 +102,8 @@ export class StockWidget {
                         }
                     },
                     y: {
-                        min: 0,
+                        min: Math.min(...this.chartData()) - 10,
+                        max: Math.max(...this.chartData()) + 10,
                         display: true,
                         position: 'right',
                         grid: {
