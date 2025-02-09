@@ -20,7 +20,7 @@ Chart.register(annotationPlugin);
         <div style="height: 60%; width: 100%; position: relative;">
             <canvas #chart></canvas>
         </div>
-        <div style="font-family: Google Sans, Arial, sans-serif;width: 100%; height: 15%; display: flex; flex-direction: row; justify-content:space-around; gap: 5px; flex-wrap: wrap">
+        <div style="font-family: Google Sans, Arial, sans-serif; align-items: center; width: 100%; height: 15%; display: flex; flex-direction: row; justify-content:space-around; gap: 5px; flex-wrap: wrap">
             <span>otwarcie: {{open()}}</span>
             <span>max: {{max()}}</span>
             <span>min: {{min()}}</span>
@@ -63,7 +63,7 @@ export class StockWidget implements AfterViewInit{
     ngOnInit() {
         //this.buildChart();
         setInterval(() => {
-            this.time.push(`${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')}`);
+            this.time.push(`${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`);
             this.chartData.update((val) => [...val, this.randomValue()]);
         }, 1000)
     }

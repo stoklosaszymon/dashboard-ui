@@ -10,7 +10,9 @@ import { Chart } from 'chart.js';
   template: `
         <div class="container">
           <div class="left">
-            <div>
+            <div style="padding-bottom: 10px">
+              <span style="font-size: 24px">1 Euro = </span>
+              <br>
               <span class="currentRate">{{currentRate()}} PLN</span>
             </div>
             <div class="inp">

@@ -1,0 +1,63 @@
+.news {
+    font-family: Goo;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+    width: 65%;
+}
+
+.news-container {
+    display: flex;
+    padding: 5px;
+}
+
+.loader {
+    border-radius: 10px;
+    height: 30px;
+}
+
+.image-loader {
+    border-radius: 10px;
+    height: 150px;
+    width: 100%;
+}
+
+.news:hover {
+    background-color: beige;
+}
+
+.news>* {
+    font-size: 16px;
+    font-family: "Google Sans", Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.news>div {
+    padding: 2px;
+}
+
+.load-bck {
+    animation: gradient 4s ease infinite;
+    background: linear-gradient(-45deg, #f9fafa, #524c4c);
+    background-image: linear-gradient(-45deg, #5c5a5a,  #adadad, #605b5b);
+    background-size: 600% 600%;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

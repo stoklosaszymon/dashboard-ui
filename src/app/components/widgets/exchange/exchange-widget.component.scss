@@ -1,10 +1,11 @@
 .container {
     height: 100%;
-    width: 100%;
+    width: 99%;
     position: relative;
     display: flex;
     container-name: main;
     container-type: inline-size;
+    padding: 5px;
 }
 
 .right {
@@ -54,5 +55,6 @@
 
     .left {
         width: 100%;
+        gap: 5px;
     }
 }

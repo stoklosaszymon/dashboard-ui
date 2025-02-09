@@ -1,9 +1,8 @@
 .container {
     width: 100%;
     bottom: 0;
-    left: 0;
     position: fixed;
-    height: 22vh;
+    height: fit-content;
     z-index: 101;
 }
 

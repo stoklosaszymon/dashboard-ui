@@ -1,0 +1,30 @@
+<div class="container full scroll">
+    @if ( newsList$ | async; as news ) {
+    @for( n of news; track n) {
+    <div class="news-container">
+        <div style="width:35%">
+            <img class="full" src="{{n.image}}" />
+        </div>
+        <div class="news border pointer" (click)="openNews(n)">
+            <h1>{{n.title}}</h1>
+            <p>{{n.summary}}</p>
+        </div>
+    </div>
+    }
+    } @else {
+    @for( i of load; track i ){
+
+    <div class="container full">
+        <div class="news-container">
+            <div style="width:35%">
+                <div class="image-loader load-bck"></div>
+            </div>
+            <div class="news border">
+                <div class="loader load-bck"></div>
+                <div class="loader load-bck"></div>
+            </div>
+        </div>
+    </div>
+    }
+    }
+</div>

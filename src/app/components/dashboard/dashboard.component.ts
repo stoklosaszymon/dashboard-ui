@@ -1,6 +1,6 @@
 import { Component, ElementRef, effect, inject, input, signal, viewChild, viewChildren } from '@angular/core';
 import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { WidgetWrapperComponent } from '../widget/widget-wrapper.component';
+import { WidgetWrapperComponent } from '../widget-wrapper/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
 import { Subject, combineLatest, delay, fromEvent, map, of, skip, switchMap, tap } from 'rxjs';
 import { WidgetWeatherComponent } from '../widgets/widget-weather/widget-weather.component';
@@ -10,6 +10,8 @@ import { StockWidget } from '../widgets/stock-widget/stock-widget.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ExchangeWidgetComponent } from '../widgets/exchange/exchange-widget.component';
 import { Widget } from '../../types/widget';
+import { YtPlayerComponent } from '../widgets/yt-player/yt-player.component';
+import { NewsComponent } from '../widgets/news/news.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -57,6 +59,15 @@ export class DashboardComponent {
       id: 3,
       name: 'exchange',
       component: ExchangeWidgetComponent,
+      config: {
+        width: '650px',
+        height: '365px'
+      },
+    },
+    {
+      id: 4,
+      name: 'news',
+      component: NewsComponent,
       config: {
         width: '650px',
         height: '365px'
