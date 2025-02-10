@@ -79,8 +79,8 @@ export class DashboardComponent {
       name: 'clock',
       component: ClocksComponent,
       config: {
-        width: `${365 * 4}px`,
-        height: '500px'
+        width: `950px`,
+        height: '300px'
       },
     },
   ])

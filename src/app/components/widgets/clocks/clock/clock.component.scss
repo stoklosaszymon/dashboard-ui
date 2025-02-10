@@ -3,52 +3,50 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    width: fit-content;
-    min-width: 365px;
-    min-height: 365px;
-    height: fit-content;
+    min-width: fit-content;
+    min-height: fit-content;
 }
 
 .clock {
-    background-color: #dddddd;
+    background-color: white;
     border-radius: 50%;
     border: 1px solid black;
     outline: 1px solid gray;
-    width: 300px;
-    height: 300px;
+    width: 150px;
+    height: 150px;
     position: relative;
 }
 
 .hand-s {
-    height: 110px;
+    height: 55px;
     width: 2px;
     position: absolute;
     left: calc(50% - 1px);
-    top: 43px;
+    top: 21.5px;
     background-color: red;
-    transform-origin: 1px 110px;
+    transform-origin: 1px 55px;
     z-index: 3
 }
 
 .hand-m {
-    height: 110px;
+    height: 55px;
     width: 4px;
     position: absolute;
     left: calc(50% - 2px);
-    top: 43px;
+    top: 21.5px;
     background-color: black;
-    transform-origin: 2px 110px;
+    transform-origin: 2px 55px;
     z-index: 2
 }
 
 .hand-h {
-    height: 100px;
+    height: 50px;
     width: 6px;
     position: absolute;
     left: calc(50% - 3px);
-    top: 53px;
+    top: 26.5px;
     background-color: black;
-    transform-origin: 3px 100px;
+    transform-origin: 3px 50px;
 }
 
 .dot {
@@ -62,27 +60,43 @@
     border-radius: 50%;
 }
 
+
 .numbers {
     position: absolute;
     width: 100%;
     height: 100%;
     display: flex;
 
+
     @for $i from 1 through 12 {
+
+
+        .tick-#{$i} {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: black;
+            $rotation: $i * 30deg;
+            transform: rotate($rotation) translateY(-75px) rotate(-$rotation);
+            left: calc(50% - 2px);
+            top: calc(50% - 2.5px);
+            transform-origin: center;
+        }
+
         .hour-#{$i} {
             position: absolute;
             width: 30px;
             height: 30px;
-            font-size: 24px;
+            font-size: 16px;
             font-weight: bold;
             $rotation: $i * 30deg;
             display: flex;
             justify-content: center;
             align-items: center;
 
-            transform: rotate($rotation) translateY(-130px) rotate(-$rotation);
+            transform: rotate($rotation) translateY(-65px) rotate(-$rotation);
             left: calc(50% - 15px);
-            top: calc(50% - 10px);
+            top: calc(50% - 13px);
             transform-origin: center;
         }
     }
@@ -91,4 +105,3 @@
         display: none !important;
     }
 }
-

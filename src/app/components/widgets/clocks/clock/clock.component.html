@@ -7,6 +7,7 @@
     </div>
     <div class="numbers">
         @for(hour of hours_template; track hour) {
+            <div class="tick-{{$index}}"></div>
             <div class="hour-{{$index}}">{{hour}}</div>
         }
     </div>
