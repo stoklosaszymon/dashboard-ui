@@ -12,7 +12,7 @@ import { ExchangeWidgetComponent } from '../widgets/exchange/exchange-widget.com
 import { Widget } from '../../types/widget';
 import { YtPlayerComponent } from '../widgets/yt-player/yt-player.component';
 import { NewsComponent } from '../widgets/news/news.component';
-import { ClockComponent } from '../widgets/clock/clock.component';
+import { ClocksComponent } from '../widgets/clocks/clocks.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -77,10 +77,10 @@ export class DashboardComponent {
     {
       id: 5,
       name: 'clock',
-      component: ClockComponent,
+      component: ClocksComponent,
       config: {
-        width: '365px',
-        height: '365px'
+        width: `${365 * 4}px`,
+        height: '500px'
       },
     },
   ])
@@ -150,6 +150,7 @@ export class DashboardComponent {
     console.log('widgetId: ', id);
     this.widgets.set(this.widgets().filter(w => w.id != id));
   }
+
 
   dropWidget(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragPlaceholder, DragDropModule } from '@angular/cdk/drag-drop';
 import { WidgetWeatherComponent } from '../components/widgets/widget-weather/widget-weather.component';
 import { StockWidget } from '../components/widgets/stock-widget/stock-widget.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,7 +10,7 @@ import { NewsComponent } from '../components/widgets/news/news.component';
 @Component({
   selector: 'app-widgets-list',
   standalone: true,
-  imports: [DragDropModule, MatIconModule],
+  imports: [DragDropModule, MatIconModule, CdkDragPlaceholder],
   templateUrl: './widgets-list.component.html',
   styleUrl: './widgets-list.component.scss'
 })

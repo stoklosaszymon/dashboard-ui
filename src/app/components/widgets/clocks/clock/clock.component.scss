@@ -3,6 +3,10 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    width: fit-content;
+    min-width: 365px;
+    min-height: 365px;
+    height: fit-content;
 }
 
 .clock {
@@ -87,3 +91,4 @@
         display: none !important;
     }
 }
+

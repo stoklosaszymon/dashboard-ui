@@ -5,7 +5,6 @@
     display: flex;
     container-name: main;
     container-type: inline-size;
-    padding: 5px;
 }
 
 .right {
@@ -14,7 +13,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 65%;
+    width: 60%;
 }
 
 .chart {
@@ -48,7 +47,7 @@
     font-family: Google Sans, Arial, sans-serif;
 }
 
-@container main (width < 400px) {
+@container main (width < 540px) {
     .right {
         display: none;
     }
@@ -56,5 +55,6 @@
     .left {
         width: 100%;
         gap: 5px;
+        justify-content: flex-start;
     }
 }

@@ -1,11 +1,9 @@
 <div class="widget border" [style]="editMode() ? 'resize: both' :  'resize: none'" cdkDrag [ngStyle]="getStyles()"
-    (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)" cdkDragBoundary=".dashboard" #widget
+    (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)" #widget
     id="{{widget.id}}" [cdkDragDisabled]="!editMode()">
+    <div class="placeholder" [ngStyle]="getPlaceholderSize()" *cdkDragPlaceholder></div>
     @if( editMode() ) {
     <div class="widget-header">
-        <div>
-            <mat-icon class="pointer" (click)="removeWidget()">delete</mat-icon>
-        </div>
         <div class="drag-handle" cdkDragHandle>
             <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -13,6 +11,9 @@
                 </path>
                 <path d="M0 0h24v24H0z" fill="none"></path>
             </svg>
+        </div>
+        <div>
+            <mat-icon class="pointer" (click)="removeWidget()">delete</mat-icon>
         </div>
     </div>
     }
