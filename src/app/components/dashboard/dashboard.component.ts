@@ -12,6 +12,7 @@ import { ExchangeWidgetComponent } from '../widgets/exchange/exchange-widget.com
 import { Widget } from '../../types/widget';
 import { YtPlayerComponent } from '../widgets/yt-player/yt-player.component';
 import { NewsComponent } from '../widgets/news/news.component';
+import { ClockComponent } from '../widgets/clock/clock.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -64,12 +65,21 @@ export class DashboardComponent {
         height: '365px'
       },
     },
+    // {
+    //   id: 4,
+    //   name: 'news',
+    //   component: NewsComponent,
+    //   config: {
+    //     width: '650px',
+    //     height: '365px'
+    //   },
+    // },
     {
-      id: 4,
-      name: 'news',
-      component: NewsComponent,
+      id: 5,
+      name: 'clock',
+      component: ClockComponent,
       config: {
-        width: '650px',
+        width: '365px',
         height: '365px'
       },
     },

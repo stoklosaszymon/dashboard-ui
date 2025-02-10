@@ -1,0 +1,12 @@
+<div class="container full">
+    <div class="clock">
+        <span class="hand-s" [ngStyle]="sRotate()"></span>
+        <span class="hand-m" [ngStyle]="mRotate()"></span>
+        <span class="hand-h" [ngStyle]="hRotate()"></span>
+    </div>
+    <div class="numbers">
+        @for(hour of hours_template; track hour) {
+            <div class="hour-{{$index}}">{{hour}}</div>
+        }
+    </div>
+</div>
