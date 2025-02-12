@@ -7,7 +7,7 @@ Chart.register(annotationPlugin);
     selector: 'app-stock-widget',
     standalone: true,
     template: `
-    <div style="display: flex; flex-direction: column;  width: 100%; height: 100%;">
+    <div style="display: flex; flex-direction: column;  width: 99%; height: 100%;">
         <div style="width: 100%; height: 25%; display: flex; flex-direction: column; justify-content: center; margin: 3px">
             <span style="font-family: Google Sans, Arial, sans-serif; font-size: 36px;">
                 {{last()}} <span style="font-size: 16px;

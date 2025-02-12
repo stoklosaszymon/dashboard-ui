@@ -1,12 +1,12 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { map, tap, delay } from 'rxjs';
+import { map, tap, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-news',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, NgOptimizedImage],
   templateUrl: './news.component.html',
   styleUrl: './news.component.scss'
 })
@@ -14,10 +14,10 @@ export class NewsComponent {
 
   http = inject(HttpClient);
   newsList$ = this.getNews();
-
   getNews() {
-    const url = 'https://api.worldnewsapi.com/top-news?source-country=us&language=en';
+    const url = 'https://api.worldnewsapi.com/top-news?source-country=us&language=en&api-key=a7ad276e963042cd98b8ce3a7247cc5f';
     return this.http.get<NewsResponse>(url).pipe(
+      debounceTime(500),
       map(resp => resp.top_news.map(e => e.news).reduce((acc, news) => [...acc, ...news])),
       tap((result) => console.log(result)
     ))

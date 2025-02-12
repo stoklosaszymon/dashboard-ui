@@ -1,5 +1,5 @@
 <div class="container full">
-    @for( timezone of timezones; track timezone) {
+    @for( timezone of timezones; track $index) {
     <div class="clock-container">
         <p class="timezone">{{timezone}}</p>
         <app-clock [timezone]="timezone"></app-clock>

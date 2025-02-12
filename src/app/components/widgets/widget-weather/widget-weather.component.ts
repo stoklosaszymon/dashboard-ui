@@ -87,7 +87,6 @@ export class WidgetWeatherComponent {
       })
     ).subscribe({
       next: (response) => {
-        console.log(response)
         this.date.set(new Date(response.current.time));
         this.temperature.set(response.current.temperature_2m);
         this.isDay.update(() => !!response.current.is_day);

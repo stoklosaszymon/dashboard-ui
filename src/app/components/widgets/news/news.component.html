@@ -1,11 +1,11 @@
 <div class="container full scroll">
     @if ( newsList$ | async; as news ) {
     @for( n of news; track n) {
-    <div class="news-container">
-        <div style="width:35%">
-            <img class="full" src="{{n.image}}" />
+    <div class="news-container border">
+        <div style="object-fit: contain">
+            <img width="300" height="200" ngSrc="{{n.image}}"/>
         </div>
-        <div class="news border pointer" (click)="openNews(n)">
+        <div class="news pointer" (click)="openNews(n)">
             <h1>{{n.title}}</h1>
             <p>{{n.summary}}</p>
         </div>

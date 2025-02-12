@@ -3,16 +3,10 @@ import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-dro
 import { WidgetWrapperComponent } from '../widget-wrapper/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
 import { Subject, combineLatest, delay, fromEvent, map, of, skip, switchMap, tap } from 'rxjs';
-import { WidgetWeatherComponent } from '../widgets/widget-weather/widget-weather.component';
 import { DashboardService } from '../../dashboard.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { StockWidget } from '../widgets/stock-widget/stock-widget.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ExchangeWidgetComponent } from '../widgets/exchange/exchange-widget.component';
 import { Widget } from '../../types/widget';
-import { YtPlayerComponent } from '../widgets/yt-player/yt-player.component';
-import { NewsComponent } from '../widgets/news/news.component';
-import { ClocksComponent } from '../widgets/clocks/clocks.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,62 +31,21 @@ export class DashboardComponent {
     }
   })
 
-  widgets = signal<Widget[]>([
-    {
-      id: 1,
-      name: 'weather',
-      component: WidgetWeatherComponent,
-      config: {
-        width: '350px',
-        height: '265px'
-      },
-    },
-    {
-      id: 2,
-      name: 'temp',
-      component: StockWidget,
-      config: {
-        width: '450px',
-        height: '365px'
-      },
-    },
-    {
-      id: 3,
-      name: 'exchange',
-      component: ExchangeWidgetComponent,
-      config: {
-        width: '650px',
-        height: '365px'
-      },
-    },
-    // {
-    //   id: 4,
-    //   name: 'news',
-    //   component: NewsComponent,
-    //   config: {
-    //     width: '650px',
-    //     height: '365px'
-    //   },
-    // },
-    {
-      id: 5,
-      name: 'clock',
-      component: ClocksComponent,
-      config: {
-        width: `950px`,
-        height: '300px'
-      },
-    },
-  ])
+  widgets = signal<Widget[]>([]);
 
   widgetEffect = effect(() => {
-    if (this.widgets().length) {
+    if(this.widgets() && this.widgets().length) {
       this.clearResizeObserver();
       this.setUpResizeObserver();
     }
   })
 
   ngOnInit() {
+    this.dashboardService.getWidgets().subscribe( (resp: any) => {
+      console.log('resp', resp)
+      this.widgets.set(resp)
+    })
+
     this.observer = new ResizeObserver(entries => {
       this.resize$.next(entries[0])
     })
@@ -149,6 +102,7 @@ export class DashboardComponent {
   removeWidget(id: number) {
     console.log('widgetId: ', id);
     this.widgets.set(this.widgets().filter(w => w.id != id));
+    this.updateWidgets();
   }
 
 
@@ -164,7 +118,7 @@ export class DashboardComponent {
       this.widgets.set(newArr);
     } else {
       const widget = {
-        id: this.widgets().length + 1,
+        id: Math.floor(Math.random() * 10000) + 1,
         name: event.previousContainer.data[event.previousIndex].name,
         component: event.previousContainer.data[event.previousIndex].component,
         config: {
@@ -172,12 +126,25 @@ export class DashboardComponent {
           height: '100px'
         }
       }
+      console.log('widget', widget);
+      
       this.widgets.update(widgets => [
         ...widgets.slice(0, event.currentIndex),
         widget,
         ...widgets.slice(event.currentIndex)
       ])
     }
+    console.log('widgets', this.widgets());
+    this.updateWidgets();
+  }
+
+  updateWidgets() {
+    const req = this.widgets().map( w => ({...w, component: w.component.name}));
+    console.log('request', req);
+    this.dashboardService.update(req).subscribe({
+      next: (resp: any) => console.log('succesfully updated', resp),
+      error: () => console.log('error occured updating widgets')
+    })
   }
 }
 
