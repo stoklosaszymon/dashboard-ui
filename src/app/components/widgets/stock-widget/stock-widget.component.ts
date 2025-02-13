@@ -7,29 +7,31 @@ Chart.register(annotationPlugin);
     selector: 'app-stock-widget',
     standalone: true,
     template: `
-    <div style="display: flex; flex-direction: column;  width: 99%; height: 100%;">
-        <div style="width: 100%; height: 25%; display: flex; flex-direction: column; justify-content: center; margin: 3px">
-            <span style="font-family: Google Sans, Arial, sans-serif; font-size: 36px;">
-                {{last()}} <span style="font-size: 16px;
-    color: rgba(0, 0, 0, .62);">PLN</span>
-            </span>
-            <span [style]="diff() > 0 ? 'color: green' : 'color: red'">
-                {{diff()}} ({{diffPercent()}}%) dzisiaj
-            </span>
+    <div class="container">
+        <div class="top">
+            <span class="wse">MSFT</span>
+            <div class="info">
+                <span>
+                    {{last()}} <span class="currency">PLN</span>
+                </span>
+                <span class="rate" [style]="diff() > 0 ? 'color: green' : 'color: red'">
+                    {{diff()}} ({{diffPercent()}}%) dzisiaj
+                </span>
+            </div>
         </div>
-        <div style="height: 60%; width: 100%; position: relative;">
+        <div class="chart">
             <canvas #chart></canvas>
         </div>
-        <div style="font-family: Google Sans, Arial, sans-serif; align-items: center; width: 100%; height: 15%; display: flex; flex-direction: row; justify-content:space-around; gap: 5px; flex-wrap: wrap">
+        <div class="details">
             <span>otwarcie: {{open()}}</span>
             <span>max: {{max()}}</span>
             <span>min: {{min()}}</span>
         </div>
     <div>
     `,
-    styles: ['div > span { margin-left: 5px; width: fit-content }']
+    styleUrl: 'stock-widget.component.scss'
 })
-export class StockWidget implements AfterViewInit{
+export class StockWidget implements AfterViewInit {
 
     chartRef = viewChild<ElementRef<HTMLCanvasElement>>('chart')
     time = [
@@ -48,16 +50,16 @@ export class StockWidget implements AfterViewInit{
         }
         this.chart.update();
     })
-    max = computed( () => Math.max(...this.chartData()));
-    min = computed( () => Math.min(...this.chartData()));
+    max = computed(() => Math.max(...this.chartData()));
+    min = computed(() => Math.min(...this.chartData()));
     last = computed(() => this.chartData().at(-1));
-    randomValue = computed( () => {
+    randomValue = computed(() => {
         const value = this.last()! + ((Math.random() * 20) - 10);
         return value < 0 ? 0 : parseFloat(value.toFixed(2));
     })
-    open = computed( () => this.chartData()[0] )
-    diff = computed( () => parseFloat((this.last()! - this.open()).toFixed(2)))
-    diffPercent = computed( () => (((this.diff() * 100) / this.open()).toFixed(2)))
+    open = computed(() => this.chartData()[0])
+    diff = computed(() => parseFloat((this.last()! - this.open()).toFixed(2)))
+    diffPercent = computed(() => (((this.diff() * 100) / this.open()).toFixed(2)))
     chart: any;
 
     ngOnInit() {
@@ -97,7 +99,7 @@ export class StockWidget implements AfterViewInit{
                             drawOnChartArea: false,
                             drawTicks: false,
                         },
-                        ticks : {
+                        ticks: {
                             maxTicksLimit: 10
                         }
                     },

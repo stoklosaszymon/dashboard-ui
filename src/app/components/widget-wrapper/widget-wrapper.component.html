@@ -1,6 +1,6 @@
 <div class="widget border" [style]="editMode() ? 'resize: both' :  'resize: none'" cdkDrag [ngStyle]="getStyles()"
-    (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)" #widget
-    id="{{widget.id}}" [cdkDragDisabled]="!editMode()">
+    (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)" #widgetRef
+    [id]="widget()!.id" [cdkDragDisabled]="!editMode()">
     <div class="placeholder" [ngStyle]="getPlaceholderSize()" *cdkDragPlaceholder></div>
     @if( editMode() ) {
     <div class="widget-header">

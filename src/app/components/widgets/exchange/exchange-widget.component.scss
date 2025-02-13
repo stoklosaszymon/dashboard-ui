@@ -30,7 +30,7 @@
     width: 35%;
 }
 
-.left > div > input {
+.left>div>input {
     margin-left: 5px;
     font-family: Google Sans, Arial, sans-serif;
     height: 30px;
@@ -55,6 +55,12 @@
     .left {
         width: 100%;
         gap: 5px;
-        justify-content: flex-start;
+        justify-content: center;
+    }
+
+    @container main (width < 240px) {
+        .rate {
+            display: none
+        }
     }
 }

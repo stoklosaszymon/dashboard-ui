@@ -1,4 +1,4 @@
-import { Component, ElementRef, effect, inject, input, signal, viewChild, viewChildren } from '@angular/core';
+import { Component, ElementRef, computed, effect, inject, input, signal, viewChild, viewChildren } from '@angular/core';
 import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetWrapperComponent } from '../widget-wrapper/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,8 @@ import { Widget } from '../../types/widget';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-  components = viewChildren<ElementRef<HTMLButtonElement>>('widget');
+  wrappers = viewChildren<WidgetWrapperComponent>('widget');
+  components = computed( () => this.wrappers().map( w => w.widgetRef()))
   dashboard = viewChild<ElementRef<HTMLElement>>('dashboard');
   observer!: ResizeObserver;
   resize$ = new Subject<ResizeObserverEntry>();
@@ -68,12 +69,14 @@ export class DashboardComponent {
             let newWidgets = this.widgets();
             newWidgets.splice(index, 1, { ...this.widgets()[index], config: config });
             this.widgets.set(newWidgets)
-            console.log(this.widgets());
           }
         }),
       ))
     ).subscribe({
-      next: (entry) => console.log(this.widgets())
+      next: (entry) => { 
+        console.log('subbed', this.widgets())
+        this.updateWidgets();
+      }
     })
   }
 
@@ -84,8 +87,8 @@ export class DashboardComponent {
 
   clearResizeObserver() {
     if (this.observer) {
-      for (let widget of this.components()) {
-        this.observer.unobserve(widget.nativeElement);
+      for (let w of this.components()) {
+        this.observer.unobserve(w?.nativeElement as Element);
       }
     }
   }
@@ -93,14 +96,13 @@ export class DashboardComponent {
   setUpResizeObserver(): void {
 
     if (this.editMode()) {
-      for (let widget of this.components()) {
-        this.observer.observe(widget.nativeElement);
+      for (let w of this.components()) {
+        this.observer.observe(w?.nativeElement as Element);
       }
     }
   }
 
   removeWidget(id: number) {
-    console.log('widgetId: ', id);
     this.widgets.set(this.widgets().filter(w => w.id != id));
     this.updateWidgets();
   }
@@ -126,21 +128,17 @@ export class DashboardComponent {
           height: '100px'
         }
       }
-      console.log('widget', widget);
-      
       this.widgets.update(widgets => [
         ...widgets.slice(0, event.currentIndex),
         widget,
         ...widgets.slice(event.currentIndex)
       ])
     }
-    console.log('widgets', this.widgets());
     this.updateWidgets();
   }
 
   updateWidgets() {
     const req = this.widgets().map( w => ({...w, component: w.component.name}));
-    console.log('request', req);
     this.dashboardService.update(req).subscribe({
       next: (resp: any) => console.log('succesfully updated', resp),
       error: () => console.log('error occured updating widgets')

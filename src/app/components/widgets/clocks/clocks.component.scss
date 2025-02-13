@@ -3,9 +3,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: fit-content;
-    height: fit-content;
-    padding: 5px;
+    height: 100%;
+
+    container-name: main;
+    container-type: inline-size;
 }
 
 .clock-container {
@@ -14,9 +15,19 @@
     align-items: center;
     height: 100%;
     width: 100%;  
-    padding: 10px;
 }
 
 .timezone {
     font-size: 1.5rem;
+}
+
+@container main (width < 240px) {
+
+    .clock-container {
+        transform: scale(0.6);
+        padding: 0px;
+        height: auto;
+        margin-top: -10px;
+    }
+
 }

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, ElementRef, input, output, viewChild } from '@angular/core';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CdkDrag, CdkDragHandle, CdkDragPlaceholder } from '@angular/cdk/drag-drop';
@@ -13,7 +13,8 @@ import { Widget } from '../../types/widget';
 })
 export class WidgetWrapperComponent {
 
-  widget = input<Widget>();
+  widgetRef = viewChild<ElementRef<HTMLDivElement>>('widgetRef');
+  widget = input<Widget | null>(null);
   component: any = input('');
   editMode = input(false);
   remove = output<number>();

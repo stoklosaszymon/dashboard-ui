@@ -36,7 +36,7 @@ const componentMap = [
 })
 export class DashboardService {
 
-  editMode$ = new BehaviorSubject(false);
+  editMode$ = new BehaviorSubject(true);
   http = inject(HttpClient)
 
 
@@ -45,13 +45,13 @@ export class DashboardService {
   }
 
   getWidgets(): any {
-    return this.http.get<Widget[]>('http://localhost:3000').pipe(
+    return this.http.get<Widget[]>('http://localhost:3000/widgets').pipe(
       map(resp => resp.map(config => ({ ...config, component: componentMap.find(m => m.name == config.component)?.component })))
     )
   }
 
   update(widgets: any): any {
-    return this.http.post<Widget[]>('http://localhost:3000', widgets).pipe(
+    return this.http.post<Widget[]>('http://localhost:3000/widgets', widgets).pipe(
       map(resp => resp.map(config => ({ ...config, component: componentMap.find(m => m.name == config.component)?.component })))
     )
   }

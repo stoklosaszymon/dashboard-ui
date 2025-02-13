@@ -17,7 +17,7 @@ export class ClocksComponent {
   }
 
   setup() {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 1; i++) {
       let random_number = Math.floor(Math.random() * timezones.length - 1) + 1;
       this.timezones.push(timezones[random_number]);
     }
