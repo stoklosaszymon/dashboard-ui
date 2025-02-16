@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { timezones } from './clock/timezones';
 import { ClockComponent } from './clock/clock.component';
 
@@ -11,13 +11,14 @@ import { ClockComponent } from './clock/clock.component';
 })
 export class ClocksComponent {
   timezones: string[] = [];
-
+  count = input(1);
+  
   ngOnInit() {
     this.setup();
   }
 
   setup() {
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < this.count(); i++) {
       let random_number = Math.floor(Math.random() * timezones.length - 1) + 1;
       this.timezones.push(timezones[random_number]);
     }

@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, effect, inject, signal } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { Widget } from './types/widget';
 import { WidgetWeatherComponent } from './components/widgets/widget-weather/widget-weather.component';
 import { StockWidget } from './components/widgets/stock-widget/stock-widget.component';
 import { ExchangeWidgetComponent } from './components/widgets/exchange/exchange-widget.component';
 import { NewsComponent } from './components/widgets/news/news.component';
 import { ClocksComponent } from './components/widgets/clocks/clocks.component';
+import { CoinComponent } from './components/widgets/coin/coin.component';
 
 const componentMap = [
   {
@@ -36,7 +37,7 @@ const componentMap = [
 })
 export class DashboardService {
 
-  editMode$ = new BehaviorSubject(true);
+  editMode$ = new BehaviorSubject(false);
   http = inject(HttpClient)
 
 
@@ -45,6 +46,7 @@ export class DashboardService {
   }
 
   getWidgets(): any {
+    //return of([{ id: 1, name: 'asd', component: CoinComponent, config: { width: '100px', height: '100px'}}])
     return this.http.get<Widget[]>('http://localhost:3000/widgets').pipe(
       map(resp => resp.map(config => ({ ...config, component: componentMap.find(m => m.name == config.component)?.component })))
     )
