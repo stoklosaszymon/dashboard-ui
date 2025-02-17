@@ -5,7 +5,7 @@ export interface Widget {
   config: WidgetConfig
 }
 
-interface WidgetConfig {
+export interface WidgetConfig {
   width: string
   height: string
 }

@@ -2,6 +2,7 @@ import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { map, tap, debounceTime } from 'rxjs';
+import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
 
 @Component({
   selector: 'app-news',
@@ -10,7 +11,7 @@ import { map, tap, debounceTime } from 'rxjs';
   templateUrl: './news.component.html',
   styleUrl: './news.component.scss'
 })
-export class NewsComponent {
+export class NewsComponent extends WidgetBaseComponent {
 
   http = inject(HttpClient);
   newsList$ = this.getNews();

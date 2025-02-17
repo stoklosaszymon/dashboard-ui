@@ -1,6 +1,7 @@
 import { Component, input } from '@angular/core';
 import { timezones } from './clock/timezones';
 import { ClockComponent } from './clock/clock.component';
+import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
 
 @Component({
   selector: 'app-clocks',
@@ -9,7 +10,7 @@ import { ClockComponent } from './clock/clock.component';
   templateUrl: './clocks.component.html',
   styleUrl: './clocks.component.scss'
 })
-export class ClocksComponent {
+export class ClocksComponent extends WidgetBaseComponent {
   timezones: string[] = [];
   count = input(1);
   
