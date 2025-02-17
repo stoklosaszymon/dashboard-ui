@@ -1,14 +1,18 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, ElementRef, computed, effect, signal, viewChild } from '@angular/core';
 import { ApiService } from '../../../api.service';
 import { Observable, Subject, switchMap } from 'rxjs';
 import { NgClass, NgStyle } from '@angular/common';
-import Chart from 'chart.js/auto';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import weatherJson from './assets/description.json'
+import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
+import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 const URL = 'https://api.open-meteo.com/v1/forecast?current=temperature_2m,rain,relative_humidity_2m,precipitation,wind_speed_10m,is_day,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&hourly=temperature_2m&daily=weather_code,temperature_2m_max,temperature_2m_min';
 
 const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+
+Chart.register(...registerables, ChartDataLabels);
 
 @Component({
   selector: 'app-widget-weather',
@@ -17,9 +21,10 @@ const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Fri
   templateUrl: './widget-weather.component.html',
   styleUrl: './widget-weather.component.scss'
 })
-export class WidgetWeatherComponent {
+export class WidgetWeatherComponent extends WidgetBaseComponent {
 
   chart: any;
+  chartRef = viewChild<ElementRef<HTMLCanvasElement>>('chart');
   date = signal(new Date());
   temperature = signal(0);
   details = signal({ precipitation: 0, humidity: 0, windSpeed: 0 })
@@ -59,6 +64,7 @@ export class WidgetWeatherComponent {
 
   constructor(private api: ApiService) {
     Chart.register(ChartDataLabels);
+    super();
   }
 
   ngOnInit() {
@@ -126,7 +132,7 @@ export class WidgetWeatherComponent {
   }
 
   buildChart() {
-    this.chart = new Chart(this.canvasId, {
+    this.chart = new Chart(this.chartRef()?.nativeElement!, {
       type: 'line',
       data: {
         labels: this.chartData.time,

@@ -1,7 +1,7 @@
-<div class="widget border" [style]="editMode() ? 'resize: both' :  'resize: none'" cdkDrag [ngStyle]="getStyles()"
+<div class="widget border" [style]="editMode() ? 'resize: both' :  'resize: none'" cdkDrag [ngStyle]="styles()"
     (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)" #widgetRef
     [id]="widget()!.id" [cdkDragDisabled]="!editMode()">
-    <div class="placeholder" [ngStyle]="getPlaceholderSize()" *cdkDragPlaceholder></div>
+    <div class="placeholder" [ngStyle]="placeholderSize()" *cdkDragPlaceholder></div>
     @if( editMode() ) {
     <div class="widget-header">
         <div class="drag-handle" cdkDragHandle>
@@ -19,6 +19,6 @@
     }
 
     <div class="widget-content">
-        <ng-container *ngComponentOutlet="component()" />
+        <ng-container *ngComponentOutlet="widget()?.component; inputs: { config: widget()?.config! }"/>
     </div>
 </div>

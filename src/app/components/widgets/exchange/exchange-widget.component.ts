@@ -1,8 +1,11 @@
 import { Component, ElementRef, computed, signal, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { Chart } from 'chart.js';
+import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
+import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+Chart.register(...registerables, ChartDataLabels);
 @Component({
   selector: 'app-exchange',
   standalone: true,
@@ -38,7 +41,7 @@ import { Chart } from 'chart.js';
   `,
   styleUrls: ['exchange-widget.component.scss']
 })
-export class ExchangeWidgetComponent {
+export class ExchangeWidgetComponent extends WidgetBaseComponent {
 
   chartRef = viewChild<ElementRef<HTMLCanvasElement>>('exchangechart');
   currencyData = signal<{date: string, value: number}[]>(this.generateCurrencyData('1m'));

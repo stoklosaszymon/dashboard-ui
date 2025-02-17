@@ -17,7 +17,7 @@ import { Widget } from '../../types/widget';
 })
 export class DashboardComponent {
   wrappers = viewChildren<WidgetWrapperComponent>('widget');
-  components = computed( () => this.wrappers().map( w => w.widgetRef()))
+  components = computed(() => this.wrappers().map(w => w.widgetRef()))
   dashboard = viewChild<ElementRef<HTMLElement>>('dashboard');
   observer!: ResizeObserver;
   resize$ = new Subject<ResizeObserverEntry>();
@@ -25,25 +25,17 @@ export class DashboardComponent {
   dashboardId = input();
 
   editMode = toSignal(this.dashboardService.editMode$, { initialValue: false });
-
-  editEffect = effect(() => {
-    if (this.editMode()) {
-      this.setUpResizeObserver();
-    }
-  })
-
   widgets = signal<Widget[]>([]);
 
   widgetEffect = effect(() => {
-    if(this.widgets() && this.widgets().length) {
+    if (this.widgets()) {
       this.clearResizeObserver();
       this.setUpResizeObserver();
     }
   })
 
   ngOnInit() {
-    this.dashboardService.getWidgets().subscribe( (resp: any) => {
-      console.log('resp', resp)
+    this.dashboardService.getWidgets().subscribe((resp: any) => {
       this.widgets.set(resp)
     })
 
@@ -63,17 +55,15 @@ export class DashboardComponent {
           return { id: widgetId, element: entry.target }
         }),
         tap((widget) => {
-          if (widget.id) {
-            let index = this.widgets().findIndex(w => w.id === parseInt(widget.id!));
-            let config = { width: `${widget.element.clientWidth}px`, height: `${widget.element.clientHeight}px` }
-            let newWidgets = this.widgets();
-            newWidgets.splice(index, 1, { ...this.widgets()[index], config: config });
-            this.widgets.set(newWidgets)
-          }
+          let index = this.widgets().findIndex(w => w.id === parseInt(widget.id!));
+          let config = { width: `${widget.element.clientWidth}px`, height: `${widget.element.clientHeight}px` }
+          let newWidgets = this.widgets();
+          newWidgets.splice(index, 1, { ...this.widgets()[index], config: config });
+          this.widgets.update(() => [...newWidgets])
         }),
       ))
     ).subscribe({
-      next: (entry) => { 
+      next: (entry) => {
         console.log('subbed', this.widgets())
         this.updateWidgets();
       }
@@ -138,7 +128,7 @@ export class DashboardComponent {
   }
 
   updateWidgets() {
-    const req = this.widgets().map( w => ({...w, component: w.component.name}));
+    const req = this.widgets().map(w => ({ ...w, component: w.component.name }));
     this.dashboardService.update(req).subscribe({
       next: (resp: any) => console.log('succesfully updated', resp),
       error: () => console.log('error occured updating widgets')

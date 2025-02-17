@@ -1,4 +1,4 @@
-import { Component, ElementRef, input, output, viewChild } from '@angular/core';
+import { Component, ElementRef, computed, input, output, viewChild } from '@angular/core';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CdkDrag, CdkDragHandle, CdkDragPlaceholder } from '@angular/cdk/drag-drop';
@@ -15,7 +15,8 @@ export class WidgetWrapperComponent {
 
   widgetRef = viewChild<ElementRef<HTMLDivElement>>('widgetRef');
   widget = input<Widget | null>(null);
-  component: any = input('');
+  placeholderSize = computed( () => ({ width: this.widget()?.config.width, height: this.widget()?.config.height}))
+  styles = computed( () => this.widget()?.config)
   editMode = input(false);
   remove = output<number>();
 
@@ -29,13 +30,5 @@ export class WidgetWrapperComponent {
 
   onDragEnd(event: any): void {
     document.body.classList.remove('moving')
-  }
-
-  getPlaceholderSize() {
-    return { width: this.widget()?.config.width, height: this.widget()?.config.height}
-  }
-
-  getStyles() {
-    return this.widget()?.config
   }
 }
