@@ -2,11 +2,10 @@ import { Component, ElementRef, effect, signal, viewChild } from '@angular/core'
 import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
 
 @Component({
-  selector: 'app-coin',
-  standalone: true,
-  imports: [],
-  templateUrl: './coin.component.html',
-  styleUrl: './coin.component.scss'
+    selector: 'app-coin',
+    imports: [],
+    templateUrl: './coin.component.html',
+    styleUrl: './coin.component.scss'
 })
 export class CoinComponent extends WidgetBaseComponent {
 

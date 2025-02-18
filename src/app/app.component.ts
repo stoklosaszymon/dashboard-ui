@@ -8,11 +8,10 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, DashboardComponent, WidgetsListComponent, MenuComponent, MatTabsModule ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [RouterOutlet, DashboardComponent, WidgetsListComponent, MenuComponent, MatTabsModule],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
 

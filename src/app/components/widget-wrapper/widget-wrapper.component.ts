@@ -5,11 +5,10 @@ import { CdkDrag, CdkDragHandle, CdkDragPlaceholder } from '@angular/cdk/drag-dr
 import { Widget } from '../../types/widget';
 
 @Component({
-  selector: 'app-widget-wrapper',
-  standalone: true,
-  imports: [NgComponentOutlet, MatIconModule, CdkDrag, CdkDragHandle, CommonModule, CdkDragPlaceholder],
-  templateUrl: './widget-wrapper.component.html',
-  styleUrl: './widget-wrapper.component.scss'
+    selector: 'app-widget-wrapper',
+    imports: [NgComponentOutlet, MatIconModule, CdkDrag, CdkDragHandle, CommonModule, CdkDragPlaceholder],
+    templateUrl: './widget-wrapper.component.html',
+    styleUrl: './widget-wrapper.component.scss'
 })
 export class WidgetWrapperComponent {
 

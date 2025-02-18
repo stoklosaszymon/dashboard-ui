@@ -10,11 +10,10 @@ import { ClocksComponent } from '../components/widgets/clocks/clocks.component';
 import { CoinComponent } from '../components/widgets/coin/coin.component';
 
 @Component({
-  selector: 'app-widgets-list',
-  standalone: true,
-  imports: [DragDropModule, MatIconModule, NgComponentOutlet],
-  templateUrl: './widgets-list.component.html',
-  styleUrl: './widgets-list.component.scss'
+    selector: 'app-widgets-list',
+    imports: [DragDropModule, MatIconModule, NgComponentOutlet],
+    templateUrl: './widgets-list.component.html',
+    styleUrl: './widgets-list.component.scss'
 })
 export class WidgetsListComponent {
 

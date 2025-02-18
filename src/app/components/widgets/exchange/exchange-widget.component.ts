@@ -7,10 +7,9 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 Chart.register(...registerables, ChartDataLabels);
 @Component({
-  selector: 'app-exchange',
-  standalone: true,
-  imports: [MatButtonModule, MatInputModule],
-  template: `
+    selector: 'app-exchange',
+    imports: [MatButtonModule, MatInputModule],
+    template: `
         <div class="container">
           <div class="left">
             <div class="rate">
@@ -39,7 +38,7 @@ Chart.register(...registerables, ChartDataLabels);
           </div>
         </div>
   `,
-  styleUrls: ['exchange-widget.component.scss']
+    styleUrls: ['exchange-widget.component.scss']
 })
 export class ExchangeWidgetComponent extends WidgetBaseComponent {
 

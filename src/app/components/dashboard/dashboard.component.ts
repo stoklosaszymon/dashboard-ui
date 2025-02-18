@@ -9,11 +9,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { Widget } from '../../types/widget';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [WidgetWrapperComponent, CdkDropList, CommonModule, MatIconModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+    selector: 'app-dashboard',
+    imports: [WidgetWrapperComponent, CdkDropList, CommonModule, MatIconModule],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
   wrappers = viewChildren<WidgetWrapperComponent>('widget');

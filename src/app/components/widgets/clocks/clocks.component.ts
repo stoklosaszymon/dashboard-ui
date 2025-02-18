@@ -4,11 +4,10 @@ import { ClockComponent } from './clock/clock.component';
 import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
 
 @Component({
-  selector: 'app-clocks',
-  standalone: true,
-  imports: [ClockComponent],
-  templateUrl: './clocks.component.html',
-  styleUrl: './clocks.component.scss'
+    selector: 'app-clocks',
+    imports: [ClockComponent],
+    templateUrl: './clocks.component.html',
+    styleUrl: './clocks.component.scss'
 })
 export class ClocksComponent extends WidgetBaseComponent {
   timezones: string[] = [];

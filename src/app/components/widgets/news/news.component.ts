@@ -5,11 +5,10 @@ import { map, tap, debounceTime } from 'rxjs';
 import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
 
 @Component({
-  selector: 'app-news',
-  standalone: true,
-  imports: [AsyncPipe, NgOptimizedImage],
-  templateUrl: './news.component.html',
-  styleUrl: './news.component.scss'
+    selector: 'app-news',
+    imports: [AsyncPipe, NgOptimizedImage],
+    templateUrl: './news.component.html',
+    styleUrl: './news.component.scss'
 })
 export class NewsComponent extends WidgetBaseComponent {
 

@@ -15,11 +15,10 @@ const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Fri
 Chart.register(...registerables, ChartDataLabels);
 
 @Component({
-  selector: 'app-widget-weather',
-  standalone: true,
-  imports: [NgClass, NgStyle ],
-  templateUrl: './widget-weather.component.html',
-  styleUrl: './widget-weather.component.scss'
+    selector: 'app-widget-weather',
+    imports: [NgClass, NgStyle],
+    templateUrl: './widget-weather.component.html',
+    styleUrl: './widget-weather.component.scss'
 })
 export class WidgetWeatherComponent extends WidgetBaseComponent {
 

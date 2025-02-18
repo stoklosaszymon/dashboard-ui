@@ -5,11 +5,10 @@ import { interval, of, switchMap, tap } from 'rxjs';
 import { timezones } from './timezones';
 
 @Component({
-  selector: 'app-clock',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './clock.component.html',
-  styleUrl: './clock.component.scss'
+    selector: 'app-clock',
+    imports: [CommonModule],
+    templateUrl: './clock.component.html',
+    styleUrl: './clock.component.scss'
 })
 export class ClockComponent {
   hours_template = Array.from(Array(13).keys())
