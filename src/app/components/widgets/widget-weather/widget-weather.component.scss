@@ -1,3 +1,6 @@
+@use 'sass:math';
+@use 'sass:string';
+
 $starFieldWidth: 2560;
 $starFieldHeight: 2560;
 $starStartOffset: 600px;
@@ -93,13 +96,13 @@ $numStarThreeStars: 100;
 }
 
 @function create-stars($n) {
-  $stars: "#{random(2560)}px #{random(2560)}px #FFF";
+  $stars: "#{math.random(2560)}px #{math.random(2560)}px #FFF";
 
   @for $i from 2 through $n {
-    $stars: "#{$stars} , #{random(2560)}px #{random(2560)}px #FFF";
+    $stars: "#{$stars} , #{math.random(2560)}px #{math.random(2560)}px #FFF";
   }
 
-  @return unquote($stars);
+  @return string.unquote($stars);
 }
 
 .info-container {
