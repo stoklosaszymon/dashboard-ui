@@ -29,7 +29,11 @@ const componentMap = [
   {
     name: '_ClocksComponent',
     component: ClocksComponent,
-  }
+  },
+  {
+    name: '_CoinComponent',
+    component: CoinComponent,
+  },
 ]
 
 @Injectable({

@@ -10,7 +10,7 @@ import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
 })
 export class CoinComponent extends WidgetBaseComponent {
 
-  random = signal(Math.floor((Math.random() * 30) + 10))
+  random = signal(Math.floor((Math.random() * 20) + 10))
   coin = viewChild<ElementRef<HTMLDivElement>>('coin');
 
   randomEff = effect(() => {

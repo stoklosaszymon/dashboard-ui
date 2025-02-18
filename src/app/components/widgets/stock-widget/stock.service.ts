@@ -25,6 +25,7 @@ export class StockService {
     return this.interval.pipe(
       switchMap(() => {
         const price = this.data.at(-1)! + ((Math.random() * 20) - 10);
+        this.data.push(price);
         return of(parseFloat(price.toFixed(2)))
       }),
       scan((acc, curr) => [...acc, curr], [] as number[])
