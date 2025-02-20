@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, effect, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { WidgetsListComponent } from './widgets-list/widgets-list.component';

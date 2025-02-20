@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, output, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon'
 import { DashboardService } from '../dashboard.service';
 

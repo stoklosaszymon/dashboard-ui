@@ -1,9 +1,9 @@
-<button mat-mini-fab aria-label="" class="menu-button" (click)="menuToggle()">
+<button data-testid="menu" mat-mini-fab aria-label="" class="menu-button" (click)="menuToggle()">
     <mat-icon>menu</mat-icon>
 </button>
-<div class="quarter-circle" #menu>
+<div data-testid="circle-menu" class="quarter-circle" #menu>
     <div class="circle-buttons">
-        <button mat-mini-fab (click)="addWidget()">
+        <button data-testid="edit-mode" mat-mini-fab (click)="addWidget()">
             <mat-icon>add_circle</mat-icon>
         </button>
         <button>B</button>

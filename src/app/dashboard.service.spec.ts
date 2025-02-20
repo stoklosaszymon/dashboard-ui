@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { DashboardService } from './dashboard.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Widget } from './types/widget';
 import { BehaviorSubject } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('DashboardService', () => {
   let service: DashboardService;
@@ -10,8 +11,11 @@ describe('DashboardService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [DashboardService]
+      providers: [
+        DashboardService,
+        provideHttpClient(),
+        provideHttpClientTesting() 
+      ]
     });
 
     service = TestBed.inject(DashboardService);

@@ -30,6 +30,8 @@ export class DashboardComponent {
     if (this.widgets()) {
       this.clearResizeObserver();
       this.setUpResizeObserver();
+      console.log('updating widgets');
+      
       this.updateWidgets();
     }
   })
@@ -65,7 +67,6 @@ export class DashboardComponent {
     ).subscribe({
       next: (entry) => {
         console.log('subbed', this.widgets())
-        this.updateWidgets();
       }
     })
   }
@@ -94,7 +95,6 @@ export class DashboardComponent {
 
   removeWidget(id: number) {
     this.widgets.set(this.widgets().filter(w => w.id != id));
-    this.updateWidgets();
   }
 
 
@@ -124,6 +124,7 @@ export class DashboardComponent {
         ...widgets.slice(event.currentIndex)
       ])
     }
+    // this.updateWidgets();
   }
 
   updateWidgets() {
