@@ -50,7 +50,6 @@ export class DashboardService {
   }
 
   getWidgets(): any {
-    //return of([{ id: 1, name: 'asd', component: CoinComponent, config: { width: '100px', height: '100px'}}])
     return this.http.get<Widget[]>('http://localhost:3000/widgets').pipe(
       map(resp => resp.map(config => ({ ...config, component: componentMap.find(m => m.name == config.component)?.component })))
     )
