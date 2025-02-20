@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { DashboardService } from './dashboard.service';
-import { HttpClientTestingModule, HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Widget } from './types/widget';
-import { BehaviorSubject } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
 
 describe('DashboardService', () => {
@@ -23,7 +22,7 @@ describe('DashboardService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Ensures no unexpected HTTP calls
+    httpMock.verify(); 
   });
 
   it('should be created', () => {
@@ -47,7 +46,7 @@ describe('DashboardService', () => {
     service.getWidgets().subscribe((widgets: Widget[]) => {
       expect(widgets.length).toBe(2);
       expect(widgets[0].name).toBe('Weather Widget');
-      expect(widgets[1].component.name).toBe('_StockWidget'); // Ensure mapping works
+      expect(widgets[1].component.name).toBe('_StockWidget'); 
     });
 
     const req = httpMock.expectOne('http://localhost:3000/widgets');
