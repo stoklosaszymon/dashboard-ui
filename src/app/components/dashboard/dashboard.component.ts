@@ -30,6 +30,7 @@ export class DashboardComponent {
     if (this.widgets()) {
       this.clearResizeObserver();
       this.setUpResizeObserver();
+      this.updateWidgets();
     }
   })
 
@@ -123,7 +124,6 @@ export class DashboardComponent {
         ...widgets.slice(event.currentIndex)
       ])
     }
-    this.updateWidgets();
   }
 
   updateWidgets() {

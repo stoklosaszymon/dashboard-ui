@@ -2,7 +2,7 @@
     @for( timezone of timezones; track $index) {
     <div class="clock-container">
         <p class="timezone">{{timezone}}</p>
-        <app-clock [timezone]="timezone"></app-clock>
+        <app-clock data-testid="clock" [timezone]="timezone"></app-clock>
     </div>
     }
 </div>
