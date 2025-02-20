@@ -1,9 +1,9 @@
 <div class="widget border" [style]="editMode() ? 'resize: both' :  'resize: none'" cdkDrag [ngStyle]="styles()"
-    (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)" #widgetRef
-    [id]="widget()!.id" [cdkDragDisabled]="!editMode()">
-    <div class="placeholder" [ngStyle]="placeholderSize()" *cdkDragPlaceholder></div>
+    (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)" #widgetRef [id]="widget()!.id"
+    [cdkDragDisabled]="!editMode()" data-testid="widget-wrapper">
+    <div data-testid="placeholder" [ngStyle]="placeholderSize()" *cdkDragPlaceholder></div>
     @if( editMode() ) {
-    <div class="widget-header">
+    <div data-testid="toolbar" class="widget-header">
         <div class="drag-handle" cdkDragHandle>
             <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -13,12 +13,13 @@
             </svg>
         </div>
         <div>
-            <mat-icon class="pointer" (click)="removeWidget()">delete</mat-icon>
+            <mat-icon class="pointer" data-testid="delete" (click)="removeWidget()">delete</mat-icon>
         </div>
     </div>
     }
-
-    <div class="widget-content">
-        <ng-container *ngComponentOutlet="widget()?.component; inputs: { config: widget()?.config! }"/>
-    </div>
+    @if( widget() ) {
+        <div data-testid="component" class="widget-content">
+            <ng-container *ngComponentOutlet="widget()?.component; inputs: { config: widget()?.config! }" />
+        </div>
+    }
 </div>
