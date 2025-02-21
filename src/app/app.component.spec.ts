@@ -12,6 +12,7 @@ ResizeObserver = jest.fn().mockImplementation(() => ({
     unobserve: jest.fn(),
     disconnect: jest.fn(),
 }))
+        Element.prototype.getAnimations = jest.fn(() => []);
 
 describe('AppComponent', () => {
     let component: AppComponent

@@ -1,15 +1,16 @@
-import { Component, ElementRef, effect, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, effect, signal, viewChild } from '@angular/core';
 import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
 
 @Component({
     selector: 'app-coin',
     imports: [],
     templateUrl: './coin.component.html',
-    styleUrl: './coin.component.scss'
+    styleUrl: './coin.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoinComponent extends WidgetBaseComponent {
 
-  random = signal(Math.floor((Math.random() * 20) + 10))
+  random = signal(Math.floor((Math.random() * 2) + 1))
   coin = viewChild<ElementRef<HTMLDivElement>>('coin');
 
   randomEff = effect(() => {
@@ -22,7 +23,7 @@ export class CoinComponent extends WidgetBaseComponent {
   })
 
   toss() {
-    this.random.set(Math.floor(Math.random() * 30) + 10)
+    this.random.set(Math.floor(Math.random() * 20) + 10)
   }
 
 }

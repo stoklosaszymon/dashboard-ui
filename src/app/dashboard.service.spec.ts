@@ -3,6 +3,8 @@ import { DashboardService } from './dashboard.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Widget } from './types/widget';
 import { provideHttpClient } from '@angular/common/http';
+import { WidgetWeatherComponent } from './components/widgets/widget-weather/widget-weather.component';
+import { StockWidget } from './components/widgets/stock-widget/stock-widget.component';
 
 describe('DashboardService', () => {
   let service: DashboardService;
@@ -13,7 +15,7 @@ describe('DashboardService', () => {
       providers: [
         DashboardService,
         provideHttpClient(),
-        provideHttpClientTesting() 
+        provideHttpClientTesting()
       ]
     });
 
@@ -22,7 +24,7 @@ describe('DashboardService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); 
+    httpMock.verify();
   });
 
   it('should be created', () => {
@@ -39,15 +41,16 @@ describe('DashboardService', () => {
 
   it('should fetch widgets and map components correctly', () => {
     const mockWidgets: Widget[] = [
-      { id: 1, name: 'Weather Widget', component: '_WidgetWeatherComponent', config: {width: '100px', height: '100px'} },
-      { id: 2, name: 'Stock Widget', component: '_StockWidget', config: {width: '100px', height: '100px'} }
+      { id: 1, name: 'Weather Widget', component: '_WidgetWeatherComponent', config: { width: '100px', height: '100px' } },
+      { id: 2, name: 'Stock Widget', component: '_StockWidget', config: { width: '100px', height: '100px' } }
     ];
 
-    service.getWidgets().subscribe((widgets: Widget[]) => {
-      expect(widgets.length).toBe(2);
-      expect(widgets[0].name).toBe('Weather Widget');
-      expect(widgets[1].component.name).toBe('_StockWidget'); 
-    });
+      service.getWidgets().subscribe((widgets: Widget[]) => {
+        expect(widgets.length).toBe(2);
+        expect(widgets[0].name).toBe('Weather Widget');
+        expect(widgets[1].component.name).toBe('_StockWidget');
+        expect(widgets[1].component).toBe(StockWidget);
+      });
 
     const req = httpMock.expectOne('http://localhost:3000/widgets');
     expect(req.request.method).toBe('GET');
@@ -56,7 +59,7 @@ describe('DashboardService', () => {
 
   it('should update widgets via HTTP POST', () => {
     const updatedWidgets: Widget[] = [
-      { id: 3, name: 'Updated News Widget', component: '_NewsComponent', config: {width: '100px', height: '100px'} }
+      { id: 3, name: 'Updated News Widget', component: '_NewsComponent', config: { width: '100px', height: '100px' } }
     ];
 
     service.update(updatedWidgets).subscribe((widgets: Widget[]) => {

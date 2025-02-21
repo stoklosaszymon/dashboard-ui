@@ -1,6 +1,6 @@
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { map, tap, debounceTime } from 'rxjs';
 import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
 
@@ -8,7 +8,8 @@ import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
     selector: 'app-news',
     imports: [AsyncPipe, NgOptimizedImage],
     templateUrl: './news.component.html',
-    styleUrl: './news.component.scss'
+    styleUrl: './news.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsComponent extends WidgetBaseComponent {
 

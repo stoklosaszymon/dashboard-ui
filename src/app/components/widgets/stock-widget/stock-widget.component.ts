@@ -1,4 +1,4 @@
-import { Component, ElementRef, computed, effect, inject, viewChild } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, inject, viewChild } from "@angular/core";
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { WidgetBaseComponent } from "../../widget-base/widget-base.component";
 import { StockService } from "./stock.service";
@@ -36,6 +36,7 @@ Chart.register(annotationPlugin);
     </div>
     `,
     styleUrl: 'stock-widget.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StockWidget extends WidgetBaseComponent {
 

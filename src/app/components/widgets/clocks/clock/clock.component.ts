@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, computed, effect, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { interval, of, switchMap, tap } from 'rxjs';
 import { timezones } from './timezones';
@@ -8,7 +8,8 @@ import { timezones } from './timezones';
     selector: 'app-clock',
     imports: [CommonModule],
     templateUrl: './clock.component.html',
-    styleUrl: './clock.component.scss'
+    styleUrl: './clock.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClockComponent {
   hours_template = Array.from(Array(13).keys())

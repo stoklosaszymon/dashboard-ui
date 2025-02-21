@@ -1,4 +1,4 @@
-import { Component, ElementRef, computed, effect, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, signal, viewChild } from '@angular/core';
 import { ApiService } from '../../../api.service';
 import { Observable, Subject, switchMap } from 'rxjs';
 import { NgClass, NgStyle } from '@angular/common';
@@ -18,7 +18,8 @@ Chart.register(...registerables, ChartDataLabels);
     selector: 'app-widget-weather',
     imports: [NgClass, NgStyle],
     templateUrl: './widget-weather.component.html',
-    styleUrl: './widget-weather.component.scss'
+    styleUrl: './widget-weather.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WidgetWeatherComponent extends WidgetBaseComponent {
 

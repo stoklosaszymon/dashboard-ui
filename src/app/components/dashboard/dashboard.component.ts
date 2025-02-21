@@ -2,7 +2,7 @@ import { Component, ElementRef, computed, effect, inject, input, signal, viewChi
 import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetWrapperComponent } from '../widget-wrapper/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
-import { Subject, combineLatest, delay, fromEvent, map, of, skip, switchMap, tap } from 'rxjs';
+import { Subject, combineLatest, debounceTime, delay, fromEvent, map, of, skip, switchMap, tap } from 'rxjs';
 import { DashboardService } from '../../dashboard.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,8 +31,9 @@ export class DashboardComponent {
       this.clearResizeObserver();
       this.setUpResizeObserver();
       console.log('updating widgets');
-      
-      this.updateWidgets();
+      if (this.editMode()) {
+        this.updateWidgets();
+      }
     }
   })
 
@@ -50,7 +51,7 @@ export class DashboardComponent {
     this.resize$.pipe(
       skip(1),
       switchMap((entry) => combineLatest([of(entry), mouseUp$]).pipe(
-        delay(1000),
+        debounceTime(1000),
         map(combined => combined[0]),
         map((entry) => {
           const widgetId = entry.target.attributes.getNamedItem("id")?.textContent;
@@ -61,7 +62,9 @@ export class DashboardComponent {
           let config = { width: `${widget.element.clientWidth}px`, height: `${widget.element.clientHeight}px` }
           let newWidgets = this.widgets();
           newWidgets.splice(index, 1, { ...this.widgets()[index], config: config });
-          this.widgets.update(() => [...newWidgets])
+          if (this.editMode()) {
+            this.widgets.update(() => [...newWidgets])
+          }
         }),
       ))
     ).subscribe({

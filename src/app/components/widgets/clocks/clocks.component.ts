@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { timezones } from './clock/timezones';
 import { ClockComponent } from './clock/clock.component';
 import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
@@ -7,7 +7,8 @@ import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
     selector: 'app-clocks',
     imports: [ClockComponent],
     templateUrl: './clocks.component.html',
-    styleUrl: './clocks.component.scss'
+    styleUrl: './clocks.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClocksComponent extends WidgetBaseComponent {
   timezones: string[] = [];

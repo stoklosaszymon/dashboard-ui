@@ -1,4 +1,4 @@
-import { Component, ElementRef, computed, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, signal, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { WidgetBaseComponent } from '../../widget-base/widget-base.component';
@@ -38,7 +38,8 @@ Chart.register(...registerables, ChartDataLabels);
           </div>
         </div>
   `,
-    styleUrls: ['exchange-widget.component.scss']
+    styleUrls: ['exchange-widget.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExchangeWidgetComponent extends WidgetBaseComponent {
 
@@ -55,6 +56,7 @@ export class ExchangeWidgetComponent extends WidgetBaseComponent {
     { name: '1R', value: '1y' },
     { name: '5R', value: '5y' },
   ]
+
 
   ngAfterViewInit() {
     this.buildChart();
