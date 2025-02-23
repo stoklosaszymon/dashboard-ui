@@ -1,5 +1,5 @@
-import { Component, ElementRef, computed, input, output, viewChild } from '@angular/core';
-import { CommonModule, NgComponentOutlet } from '@angular/common';
+import { Component, ElementRef, Inject, Renderer2, computed, inject, input, output, viewChild } from '@angular/core';
+import { CommonModule, DOCUMENT, NgComponentOutlet } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CdkDrag, CdkDragHandle, CdkDragPlaceholder } from '@angular/cdk/drag-drop';
 import { Widget } from '../../types/widget';
@@ -11,6 +11,9 @@ import { Widget } from '../../types/widget';
     styleUrl: './widget-wrapper.component.scss'
 })
 export class WidgetWrapperComponent {
+
+  document = inject(DOCUMENT)
+  renderer = inject(Renderer2)
 
   widgetRef = viewChild<ElementRef<HTMLDivElement>>('widgetRef');
   widget = input<Widget | null>(null);
@@ -24,10 +27,10 @@ export class WidgetWrapperComponent {
   }
 
   onDragStart(event: any): void {
-    document.body.classList.add('moving')
+   this.renderer.addClass(this.document.body, 'moving')
   }
 
   onDragEnd(event: any): void {
-    document.body.classList.remove('moving')
+   this.renderer.removeClass(this.document.body, 'moving')
   }
 }

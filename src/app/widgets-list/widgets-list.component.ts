@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, Renderer2, inject } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { WidgetWeatherComponent } from '../components/widgets/widget-weather/widget-weather.component';
 import { StockWidget } from '../components/widgets/stock-widget/stock-widget.component';
 import { MatIconModule } from '@angular/material/icon';
 import { DashboardService } from '../dashboard.service';
 import { ExchangeWidgetComponent } from '../components/widgets/exchange/exchange-widget.component';
-import { NgComponentOutlet } from '@angular/common';
+import { DOCUMENT, NgComponentOutlet } from '@angular/common';
 import { ClocksComponent } from '../components/widgets/clocks/clocks.component';
 import { CoinComponent } from '../components/widgets/coin/coin.component';
 
@@ -18,6 +18,8 @@ import { CoinComponent } from '../components/widgets/coin/coin.component';
 export class WidgetsListComponent {
 
   dashboardService = inject(DashboardService);
+  document = inject(DOCUMENT)
+  renderer = inject(Renderer2)
 
   widgets = [
     { name: 'weather', component: WidgetWeatherComponent },
@@ -29,13 +31,11 @@ export class WidgetsListComponent {
   ]
 
   onDragStart(event: any): void {
-    console.log('drag event start', event);
-    
-    document.body.classList.add('dragging')
+    this.renderer.addClass(this.document.body, 'dragging')
   }
 
   onDragEnd(event: any): void {
-    document.body.classList.remove('dragging')
+    this.renderer.removeClass(this.document.body, 'dragging')
   }
 
   close() {

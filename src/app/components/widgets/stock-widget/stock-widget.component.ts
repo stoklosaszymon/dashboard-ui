@@ -132,7 +132,7 @@ export class StockWidget extends WidgetBaseComponent {
                         annotations: {
                             line: {
                                 type: 'line',
-                                yMin: this.last(), // Last element value
+                                yMin: this.last(),
                                 yMax: this.last(),
                                 borderColor: 'red',
                                 borderWidth: 2,
