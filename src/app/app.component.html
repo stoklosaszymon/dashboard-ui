@@ -1,13 +1,6 @@
 <app-menu></app-menu>
 <div class="container">
-  <mat-tab-group>
-  <mat-tab label="First"> 
-    <app-dashboard dashboardId="1"></app-dashboard>
-  </mat-tab>
-  <!-- <mat-tab label="Second">
-    <app-dashboard dashboardId="2"></app-dashboard>
-  </mat-tab> -->
-</mat-tab-group>
+  <app-dashboard-tabs></app-dashboard-tabs>
   @if( editMode() ) {
   <div #widgetsList class="widgets-list">
     <app-widgets-list data-testid="widgets-list"></app-widgets-list>

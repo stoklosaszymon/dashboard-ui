@@ -1,15 +1,14 @@
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { WidgetsListComponent } from './widgets-list/widgets-list.component';
 import { MenuComponent } from './menu/menu.component';
 import { DashboardService } from './dashboard.service';
 import { toSignal } from '@angular/core/rxjs-interop'
-import { MatTabsModule } from '@angular/material/tabs';
+import { DashboardTabsComponent } from "./dashboard-tabs/dashboard-tabs.component";
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, DashboardComponent, WidgetsListComponent, MenuComponent, MatTabsModule],
+    imports: [RouterOutlet, WidgetsListComponent, MenuComponent, DashboardTabsComponent, DashboardTabsComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
