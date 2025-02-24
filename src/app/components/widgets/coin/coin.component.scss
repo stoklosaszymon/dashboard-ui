@@ -2,6 +2,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    container-name: main;
+    container-type: inline-size;
 }
 
 .coin {
@@ -41,6 +44,7 @@
 .head {
     background-color: #bbb;
     color: black;
+    user-select: none;
   }
   
   /* Style the back side */
@@ -48,6 +52,14 @@
     background-color: dodgerblue;
     color: white;
     transform: rotateY(180deg) rotateZ(180deg);
+    user-select: none;
+  }
+
+  .history {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
 @keyframes flip {
@@ -61,5 +73,11 @@
 
     100% {
         transform: rotateX(calc(var(--rotation) * -180deg)) scale(1)
+    }
+}
+
+@container main (width < 250px) {
+    .history {
+        display: none;
     }
 }
