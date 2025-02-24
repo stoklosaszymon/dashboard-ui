@@ -49,8 +49,8 @@ export class DashboardService {
     this.editMode$.next(!this.editMode$.getValue())
   }
 
-  getWidgets(): any {
-    return this.http.get<Widget[]>('http://localhost:3000/widgets').pipe(
+  getWidgets(dashboardId: number): any {
+    return this.http.get<Widget[]>(`http://localhost:3000/widgets/${dashboardId}`).pipe(
       map(resp => resp.map(config => ({ ...config, component: componentMap.find(m => m.name == config.component)?.component })))
     )
   }

@@ -45,14 +45,14 @@ describe('DashboardService', () => {
       { id: 2, name: 'Stock Widget', component: '_StockWidget', config: { width: '100px', height: '100px' } }
     ];
 
-      service.getWidgets().subscribe((widgets: Widget[]) => {
+      service.getWidgets(1).subscribe((widgets: Widget[]) => {
         expect(widgets.length).toBe(2);
         expect(widgets[0].name).toBe('Weather Widget');
         expect(widgets[1].component.name).toBe('_StockWidget');
         expect(widgets[1].component).toBe(StockWidget);
       });
 
-    const req = httpMock.expectOne('http://localhost:3000/widgets');
+    const req = httpMock.expectOne('http://localhost:3000/widgets/1');
     expect(req.request.method).toBe('GET');
     req.flush(mockWidgets);
   });

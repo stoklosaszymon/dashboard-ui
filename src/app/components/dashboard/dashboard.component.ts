@@ -21,7 +21,7 @@ export class DashboardComponent {
   observer!: ResizeObserver;
   resize$ = new Subject<ResizeObserverEntry>();
   dashboardService = inject(DashboardService);
-  dashboardId = input();
+  dashboardId = input(0);
   lastSize: {width: number, height: number} = { width: 0, height: 0 }
 
   editMode = toSignal(this.dashboardService.editMode$, { initialValue: false });
@@ -35,7 +35,7 @@ export class DashboardComponent {
   })
 
   ngOnInit() {
-    this.dashboardService.getWidgets().subscribe((resp: any) => {
+    this.dashboardService.getWidgets(this.dashboardId()).subscribe((resp: any) => {
       this.widgets.set(resp)
     })
 
@@ -135,7 +135,7 @@ export class DashboardComponent {
   }
 
   updateWidgets() {
-    const req = this.widgets().map(w => ({ ...w, component: w.component.name }));
+    const req = this.widgets().map(w => ({ ...w, component: w.component.name, dashboardId: this.dashboardId }));
     this.dashboardService.update(req).subscribe({
       next: (resp: any) => console.log('succesfully updated', resp),
       error: () => console.log('error occured updating widgets')

@@ -8,6 +8,8 @@
     --tw-gradient-to: rgb(229 231 235 / 0) var(--tw-gradient-to-position);
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
     background: linear-gradient(to right bottom, #e5e7eb 50%, rgb(229 231 235 / 0) 100%);
+    overflow: hidden;
+    position: relative;
 }
 
 .pointer {
