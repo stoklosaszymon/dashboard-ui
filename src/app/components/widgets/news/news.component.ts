@@ -20,7 +20,6 @@ export class NewsComponent extends WidgetBaseComponent {
     return this.http.get<NewsResponse>(url).pipe(
       debounceTime(500),
       map(resp => resp.top_news.map(e => e.news).reduce((acc, news) => [...acc, ...news])),
-      tap((result) => console.log(result)
     ))
   }
 

@@ -30,7 +30,6 @@ export class DashboardComponent {
     if (this.widgets()) {
       this.clearResizeObserver();
       this.setUpResizeObserver();
-      console.log('updating widgets');
       if (this.editMode()) {
         this.updateWidgets();
       }
@@ -127,7 +126,6 @@ export class DashboardComponent {
         ...widgets.slice(event.currentIndex)
       ])
     }
-    // this.updateWidgets();
   }
 
   updateWidgets() {
