@@ -3,7 +3,7 @@
     cdkDropListOrientation="mixed">
     @for(widget of widgets(); track widget.id) {
 
-    <app-widget-wrapper #widget [widget]="widget" [editMode]="editMode()"
+    <app-widget-wrapper data-testid="widget" #widget [widget]="widget" [editMode]="editMode()"
         (remove)="removeWidget($event)">
     </app-widget-wrapper>
     }
