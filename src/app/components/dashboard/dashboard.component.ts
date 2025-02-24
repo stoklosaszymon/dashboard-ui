@@ -2,17 +2,17 @@ import { Component, ElementRef, computed, effect, inject, input, signal, viewChi
 import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetWrapperComponent } from '../widget-wrapper/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
-import { Subject, combineLatest, debounceTime, delay, fromEvent, map, of, skip, switchMap, tap } from 'rxjs';
+import { Subject, debounceTime, map, skip, tap } from 'rxjs';
 import { DashboardService } from '../../dashboard.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { Widget } from '../../types/widget';
 
 @Component({
-    selector: 'app-dashboard',
-    imports: [WidgetWrapperComponent, CdkDropList, CommonModule, MatIconModule],
-    templateUrl: './dashboard.component.html',
-    styleUrl: './dashboard.component.scss'
+  selector: 'app-dashboard',
+  imports: [WidgetWrapperComponent, CdkDropList, CommonModule, MatIconModule],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
   wrappers = viewChildren<WidgetWrapperComponent>('widget');
@@ -22,6 +22,7 @@ export class DashboardComponent {
   resize$ = new Subject<ResizeObserverEntry>();
   dashboardService = inject(DashboardService);
   dashboardId = input();
+  lastSize: {width: number, height: number} = { width: 0, height: 0 }
 
   editMode = toSignal(this.dashboardService.editMode$, { initialValue: false });
   widgets = signal<Widget[]>([]);
@@ -30,9 +31,6 @@ export class DashboardComponent {
     if (this.widgets()) {
       this.clearResizeObserver();
       this.setUpResizeObserver();
-      if (this.editMode()) {
-        this.updateWidgets();
-      }
     }
   })
 
@@ -42,40 +40,47 @@ export class DashboardComponent {
     })
 
     this.observer = new ResizeObserver(entries => {
-      this.resize$.next(entries[0])
-    })
-
-    const mouseUp$ = fromEvent(this.dashboard()?.nativeElement!, 'mouseup')
-
-    this.resize$.pipe(
-      skip(1),
-      switchMap((entry) => combineLatest([of(entry), mouseUp$]).pipe(
-        debounceTime(1000),
-        map(combined => combined[0]),
-        map((entry) => {
-          const widgetId = entry.target.attributes.getNamedItem("id")?.textContent;
-          return { id: widgetId, element: entry.target }
-        }),
-        tap((widget) => {
-          let index = this.widgets().findIndex(w => w.id === parseInt(widget.id!));
-          let config = { width: `${widget.element.clientWidth}px`, height: `${widget.element.clientHeight}px` }
-          let newWidgets = this.widgets();
-          newWidgets.splice(index, 1, { ...this.widgets()[index], config: config });
-          if (this.editMode()) {
-            this.widgets.update(() => [...newWidgets])
-          }
-        }),
-      ))
-    ).subscribe({
-      next: (entry) => {
-        console.log('subbed', this.widgets())
+      const { width, height } = entries[0].target.getBoundingClientRect();
+  
+      if (this.lastSize?.width !== width || this.lastSize?.height !== height) {
+        this.lastSize = { width, height }; 
+        this.resize$.next(entries[0]);
       }
-    })
+    });
+  
+    this.resize$.pipe(
+      skip(1),  
+      debounceTime(500), 
+      map(entry => ({
+        id: entry.target.getAttribute("id"),
+        element: entry.target,
+        width: entry.target.clientWidth,
+        height: entry.target.clientHeight
+      })),
+      tap(widget => {
+        if (!widget.id) return;
+  
+        const index = this.widgets().findIndex(w => w.id === parseInt(widget.id!));
+        if (index === -1) return;
+  
+        const config = { width: `${widget.width}px`, height: `${widget.height}px` };
+        const newWidgets = [...this.widgets()];
+        newWidgets[index] = { ...newWidgets[index], config };
+  
+        if (this.editMode()) {
+          this.widgets.update(() => newWidgets);
+          this.updateWidgets();
+        }
+      })
+    ).subscribe();
   }
 
   ngOnDestroy() {
-    this.clearResizeObserver();
+    //this.clearResizeObserver();
     this.resize$.unsubscribe();
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
 
   clearResizeObserver() {
@@ -97,6 +102,7 @@ export class DashboardComponent {
 
   removeWidget(id: number) {
     this.widgets.set(this.widgets().filter(w => w.id != id));
+    this.updateWidgets();
   }
 
 
@@ -126,6 +132,7 @@ export class DashboardComponent {
         ...widgets.slice(event.currentIndex)
       ])
     }
+    this.updateWidgets();
   }
 
   updateWidgets() {
