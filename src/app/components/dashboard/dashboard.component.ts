@@ -53,7 +53,6 @@ export class DashboardComponent {
       debounceTime(500), 
       map(entry => ({
         id: entry.target.getAttribute("id"),
-        element: entry.target,
         width: entry.target.clientWidth,
         height: entry.target.clientHeight
       })),
