@@ -1,3 +1,5 @@
+@use '../../../../styles' as s;
+
 div>span {
     margin-left: 5px;
     width: fit-content
@@ -18,7 +20,7 @@ div>span {
 }
 
 .details {
-    font-family: Google Sans, Arial, sans-serif;
+    font-family: s.$font;
     align-items: center;
     width: 100%;
     display: flex;
@@ -38,8 +40,8 @@ div>span {
     margin: 3px
 }
 
-.top > * {
-    font-family: Google Sans, Arial, sans-serif;
+.top>* {
+    font-family: s.$font;
     font-size: 2rem;
 }
 

@@ -1,5 +1,7 @@
+@use '../../../../styles' as s;
+
 .news {
-    font-family: Goo;
+    font-family: s.$font;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -32,7 +34,7 @@
 
 .news>* {
     font-size: 16px;
-    font-family: "Google Sans", Arial, sans-serif;
+    font-family: s.$font;
 }
 
 .container {
@@ -49,18 +51,20 @@
 .load-bck {
     animation: gradient 4s ease infinite;
     background: linear-gradient(-45deg, #f9fafa, #524c4c);
-    background-image: linear-gradient(-45deg, #5c5a5a,  #adadad, #605b5b);
+    background-image: linear-gradient(-45deg, #5c5a5a, #adadad, #605b5b);
     background-size: 600% 600%;
 }
 
 @keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }

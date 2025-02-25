@@ -1,3 +1,5 @@
+@use '../../../../styles' as s;
+
 .container {
     height: 100%;
     width: 99%;
@@ -32,7 +34,7 @@
 
 .left>div>input {
     margin-left: 5px;
-    font-family: Google Sans, Arial, sans-serif;
+    font-family: s.$font;
     height: 30px;
     border-radius: 5px;
 }
@@ -44,7 +46,7 @@
 
 .currentRate {
     font-size: 42px;
-    font-family: Google Sans, Arial, sans-serif;
+    font-family: s.$font;
 }
 
 @container main (width < 540px) {

@@ -1,3 +1,5 @@
+@use '../../../../styles' as s;
+
 .container {
     display: flex;
     align-items: center;
@@ -45,22 +47,22 @@
     background-color: #bbb;
     color: black;
     user-select: none;
-  }
-  
-  /* Style the back side */
-  .tail {
+}
+
+/* Style the back side */
+.tail {
     background-color: dodgerblue;
     color: white;
     transform: rotateY(180deg) rotateZ(180deg);
     user-select: none;
-  }
+}
 
-  .history {
+.history {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+    font-family: s.$font;
+}
 
 @keyframes flip {
     0% {

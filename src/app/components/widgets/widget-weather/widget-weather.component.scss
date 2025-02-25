@@ -1,5 +1,6 @@
 @use 'sass:math';
 @use 'sass:string';
+@use '../../../../styles' as s;
 
 $starFieldWidth: 2560;
 $starFieldHeight: 2560;
@@ -117,7 +118,7 @@ $numStarThreeStars: 100;
   position: relative;
 
   align-self: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: s.$font;
   font-weight: 400;
   z-index: 3;
   display: flex;
