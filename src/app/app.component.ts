@@ -8,7 +8,7 @@ import { DashboardTabsComponent } from "./dashboard-tabs/dashboard-tabs.componen
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, WidgetsListComponent, MenuComponent, DashboardTabsComponent, DashboardTabsComponent],
+    imports: [RouterOutlet, WidgetsListComponent, MenuComponent, DashboardTabsComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })

@@ -1,6 +1,6 @@
 <div class="container border">
     <mat-icon class="close-button" (click)="close()">close</mat-icon>
-    <div cdkDropList [cdkDropListData]="widgets" id="widget-list" [cdkDropListConnectedTo]="['dashboard-1', 'dashboard-2']"
+    <div cdkDropList [cdkDropListData]="widgets" id="widget-list" [cdkDropListConnectedTo]="(tabs | async)!"
         cdkDropListSortingDisabled class="list">
         @for(widget of widgets; track widget.name) {
         <div class="widget" cdkDrag (cdkDragStarted)="onDragStart($event)" (cdkDragEnded)="onDragEnd($event)">

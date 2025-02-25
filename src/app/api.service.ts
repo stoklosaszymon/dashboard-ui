@@ -16,4 +16,10 @@ export class ApiService {
       catchError( () => { throw "API ERROR" })
     )
   }
+
+  post<T>(url: string, body: any): Observable<T> {
+    return this.http.post<T>(url, body).pipe(
+      catchError( () => { throw "API ERROR" })
+    )
+  }
 }

@@ -9,3 +9,5 @@ export interface WidgetConfig {
   width: string
   height: string
 }
+
+export type Tab = Pick<Widget, 'id' | 'name'>
