@@ -15,6 +15,10 @@ export class TabsService {
     }
 
     createTab(tabName: string) {
-      return this.service.post<Tab>('http://localhost:3000/widgets/www/tab', { name: tabName })
+      return this.service.post<Tab>('http://localhost:3000/widgets/create/tab', { name: tabName })
+    }
+
+    updateTab(tab: Tab) {
+      return this.service.post<Tab>('http://localhost:3000/widgets/update/tab', { name: tab.name, id: tab.id })
     }
 }

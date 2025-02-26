@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 
@@ -11,6 +11,10 @@ export class ApiService {
 
   }
 
+  headers = new HttpHeaders({
+    "Content-type": 'application/json'
+  })
+
   get<T>(url: string): Observable<T> {
     return this.http.get<T>(url).pipe(
       catchError( () => { throw "API ERROR" })
@@ -19,7 +23,7 @@ export class ApiService {
 
   post<T>(url: string, body: any): Observable<T> {
     return this.http.post<T>(url, body).pipe(
-      catchError( () => { throw "API ERROR" })
+      catchError( () => { throw "ERROR DURING POST METHOD" })
     )
   }
 }

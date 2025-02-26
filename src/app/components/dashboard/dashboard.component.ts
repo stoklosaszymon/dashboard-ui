@@ -75,7 +75,7 @@ export class DashboardComponent {
   }
 
   ngOnDestroy() {
-    //this.clearResizeObserver();
+    this.clearResizeObserver();
     this.resize$.unsubscribe();
     if (this.observer) {
       this.observer.disconnect();
