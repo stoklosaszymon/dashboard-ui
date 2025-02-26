@@ -44,6 +44,7 @@ export class DashboardTabsComponent {
     if (this.editable()) {
 
       this.update = fromEvent(this.editable()?.nativeElement!, 'input').pipe(
+        debounceTime(500),
         switchMap(t => {
           const target = t.target as HTMLDListElement
           console.log('zz',target.innerHTML + target.id)
