@@ -24,7 +24,7 @@ export class MenuComponent {
 
     addTab() {
       this.tabService.createTab('test').subscribe( (resp) => {
-        this.tabService.tabCreated.next('test')        
+        this.tabService.tabCreated.next('New Tab')        
       })
     }
 }

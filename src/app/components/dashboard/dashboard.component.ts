@@ -135,7 +135,7 @@ export class DashboardComponent {
   }
 
   updateWidgets() {
-    const req = this.widgets().map(w => ({ ...w, component: w.component.name, dashboardId: this.dashboardId }));
+    const req = this.widgets().map(w => ({ ...w, component: w.component.name, dashboardId: this.dashboardId() }));
     this.dashboardService.update(req).subscribe({
       next: (resp: any) => console.log('succesfully updated', resp),
       error: () => console.log('error occured updating widgets')

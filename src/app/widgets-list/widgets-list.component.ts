@@ -9,13 +9,13 @@ import { AsyncPipe, DOCUMENT, NgComponentOutlet } from '@angular/common';
 import { ClocksComponent } from '../components/widgets/clocks/clocks.component';
 import { CoinComponent } from '../components/widgets/coin/coin.component';
 import { TabsService } from '../dashboard-tabs/tabs.service';
-import { map, tap } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs';
 
 @Component({
-    selector: 'app-widgets-list',
-    imports: [DragDropModule, MatIconModule, NgComponentOutlet, AsyncPipe],
-    templateUrl: './widgets-list.component.html',
-    styleUrl: './widgets-list.component.scss'
+  selector: 'app-widgets-list',
+  imports: [DragDropModule, MatIconModule, NgComponentOutlet, AsyncPipe],
+  templateUrl: './widgets-list.component.html',
+  styleUrl: './widgets-list.component.scss'
 })
 export class WidgetsListComponent {
 
@@ -33,8 +33,13 @@ export class WidgetsListComponent {
     //{ name: 'news', component: NewsComponent },
   ]
 
-  tabs = this.tabService.getTabs().pipe(
-    map( (tabs) =>  tabs.map( tab => `dashboard-${tab.id}`)),
+  tabs = this.tabService.tabCreated.pipe(
+    startWith('emoty'),
+    switchMap((tab: string) => {
+      return this.tabService.getTabs().pipe(
+        map((tabs) => tabs.map(tab => `dashboard-${tab.id}`)),
+      )
+    })
   )
 
   onDragStart(event: any): void {
