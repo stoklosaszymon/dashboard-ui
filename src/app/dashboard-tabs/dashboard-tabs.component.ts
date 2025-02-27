@@ -17,11 +17,11 @@ import { TabDirective } from './tab.directive';
       <mat-tab class="tab"> 
         @if (isEditMode()) {
         <ng-template mat-tab-label>
-          <div appTab contenteditable="true" id="{{tab.id}}" #editable>{{tab.name}}</div>
+          <div data-testid="editable" appTab contenteditable="true" id="{{tab.id}}" #editable>{{tab.name}}</div>
         </ng-template>
         } @else {
         <ng-template mat-tab-label>
-          <div contenteditable="false">{{tab.name}}</div>
+          <div data-testid="uneditable" contenteditable="false">{{tab.name}}</div>
         </ng-template>
         }
         <app-dashboard [dashboardId]="tab.id"></app-dashboard>
