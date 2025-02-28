@@ -25,6 +25,7 @@ export class CoinComponent extends WidgetBaseComponent {
   })
 
   toss() {
+    this.coin()?.nativeElement.classList.add('animation');
     this.random.set(Math.floor(Math.random() * 20) + 10)
   }
 

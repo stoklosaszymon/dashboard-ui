@@ -41,7 +41,7 @@ const componentMap = [
 })
 export class DashboardService {
 
-  editMode$ = new BehaviorSubject(false);
+  editMode$ = new BehaviorSubject(true);
   http = inject(HttpClient)
 
 
