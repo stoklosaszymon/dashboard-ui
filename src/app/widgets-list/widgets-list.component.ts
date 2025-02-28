@@ -10,6 +10,7 @@ import { ClocksComponent } from '../components/widgets/clocks/clocks.component';
 import { CoinComponent } from '../components/widgets/coin/coin.component';
 import { TabsService } from '../dashboard-tabs/tabs.service';
 import { map, startWith, switchMap } from 'rxjs';
+import { NewsComponent } from '../components/widgets/news/news.component';
 
 @Component({
   selector: 'app-widgets-list',
@@ -25,12 +26,11 @@ export class WidgetsListComponent {
   tabService = inject(TabsService)
 
   widgets = [
-    { name: 'weather', component: WidgetWeatherComponent },
     { name: 'stock', component: StockWidget },
     { name: 'exchange', component: ExchangeWidgetComponent },
     { name: 'clocks', component: ClocksComponent },
     { name: 'coin', component: CoinComponent },
-    //{ name: 'news', component: NewsComponent },
+    { name: 'news', component: NewsComponent },
   ]
 
   tabs = this.tabService.tabCreated.pipe(
