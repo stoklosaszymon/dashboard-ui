@@ -50,7 +50,7 @@ export class DashboardComponent {
   
     this.resize$.pipe(
       skip(1),  
-      debounceTime(500), 
+      debounceTime(1000), 
       map(entry => ({
         id: entry.target.getAttribute("id"),
         width: entry.target.clientWidth,

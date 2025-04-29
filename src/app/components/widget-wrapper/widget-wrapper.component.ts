@@ -3,22 +3,25 @@ import { CommonModule, DOCUMENT, NgComponentOutlet } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CdkDrag, CdkDragHandle, CdkDragPlaceholder } from '@angular/cdk/drag-drop';
 import { Widget } from '../../types/widget';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfigDialogComponent } from '../../config-dialog/config-dialog.component';
 
 @Component({
-    selector: 'app-widget-wrapper',
-    imports: [NgComponentOutlet, MatIconModule, CdkDrag, CdkDragHandle, CommonModule, CdkDragPlaceholder],
-    templateUrl: './widget-wrapper.component.html',
-    styleUrl: './widget-wrapper.component.scss'
+  selector: 'app-widget-wrapper',
+  imports: [NgComponentOutlet, MatIconModule, CdkDrag, CdkDragHandle, CommonModule, CdkDragPlaceholder],
+  templateUrl: './widget-wrapper.component.html',
+  styleUrl: './widget-wrapper.component.scss'
 })
 export class WidgetWrapperComponent {
 
   document = inject(DOCUMENT)
   renderer = inject(Renderer2)
+  readonly dialog = inject(MatDialog);
 
   widgetRef = viewChild<ElementRef<HTMLDivElement>>('widgetRef');
   widget = input<Widget | null>(null);
-  placeholderSize = computed( () => ({ width: this.widget()?.config.width, height: this.widget()?.config.height}))
-  styles = computed( () => this.widget()?.config)
+  placeholderSize = computed(() => ({ width: this.widget()?.config.width, height: this.widget()?.config.height }))
+  styles = computed(() => this.widget()?.config)
   editMode = input(false);
   remove = output<number>();
 
@@ -27,10 +30,16 @@ export class WidgetWrapperComponent {
   }
 
   onDragStart(event: any): void {
-   this.renderer.addClass(this.document.body, 'moving')
+    this.renderer.addClass(this.document.body, 'moving')
   }
 
   onDragEnd(event: any): void {
-   this.renderer.removeClass(this.document.body, 'moving')
+    this.renderer.removeClass(this.document.body, 'moving')
+  }
+
+  openSettings() {
+    this.dialog.open(ConfigDialogComponent, {
+      data: this.widget()
+    });
   }
 }
