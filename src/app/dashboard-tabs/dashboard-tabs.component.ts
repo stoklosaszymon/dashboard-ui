@@ -24,7 +24,9 @@ import { TabDirective } from './tab.directive';
           <div data-testid="uneditable" contenteditable="false">{{tab.name}}</div>
         </ng-template>
         }
-        <app-dashboard [dashboardId]="tab.id"></app-dashboard>
+        <ng-template matTabContent>
+          <app-dashboard [dashboardId]="tab.id"></app-dashboard>
+        </ng-template>
       </mat-tab>
     }
   </mat-tab-group>`
