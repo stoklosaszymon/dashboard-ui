@@ -3,7 +3,7 @@
     @for( n of news; track n) {
     <div class="news-container border">
         <div style="width: 300px; height: 200px;">
-            <img width="200" height="100" ngSrc="{{n.image}}"/>
+            <img width="300" height="200" ngSrc="{{n.image}}"/>
         </div>
         <div class="news pointer" (click)="openNews(n)">
             <h1>{{n.title}}</h1>
