@@ -36,10 +36,10 @@ describe('MenuComponent', () => {
         expect(menu).toBeTruthy();
     })
 
-    it('should enable edit mode on click', () => {
-        jest.spyOn(service, 'toggleEditMode');
+    it('should show widget list', () => {
+        jest.spyOn(service, 'toggleWidgetsMenu');
         fixture.debugElement.query(By.css('[data-testid=edit-mode]')).nativeElement.click();
         fixture.detectChanges();
-        expect(service.toggleEditMode).toHaveBeenCalled();
+        expect(service.toggleWidgetsMenu).toHaveBeenCalled();
     })
 })

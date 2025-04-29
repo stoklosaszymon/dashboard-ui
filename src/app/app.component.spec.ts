@@ -44,6 +44,7 @@ describe('AppComponent', () => {
 
     it('should display widget list', () => {
         service.toggleEditMode();
+        service.toggleWidgetsMenu();
         fixture.detectChanges();
         const menuElement = fixture.debugElement.query(By.css('[data-testid="widgets-list"]'));
         expect(menuElement).toBeTruthy();
