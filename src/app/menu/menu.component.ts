@@ -16,10 +16,11 @@ export class MenuComponent {
 
     menuToggle() {
       this.menu()?.nativeElement.classList.toggle('expand');
+      this.dashboardService.toggleEditMode(); 
     }
 
     addWidget() {
-      this.dashboardService.toggleEditMode(); 
+      this.dashboardService.toggleWidgetsMenu();
     }
 
     addTab() {

@@ -18,6 +18,6 @@ export class AppComponent {
   @ViewChild('widgetsList') widgetList!: ElementRef;
   title = 'dashboard-ui';
   editMode = toSignal<boolean>(this.dashboardService.editMode$);
-
+  showWidgetList = toSignal<boolean>(this.dashboardService.showWidgetsMenu$);
 }
 

@@ -51,6 +51,6 @@ export class WidgetsListComponent {
   }
 
   close() {
-    this.dashboardService.toggleEditMode();
+    this.dashboardService.toggleWidgetsMenu();
   }
 }

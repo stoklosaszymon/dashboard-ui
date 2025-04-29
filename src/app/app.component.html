@@ -1,7 +1,7 @@
 <app-menu></app-menu>
 <div class="container">
   <app-dashboard-tabs></app-dashboard-tabs>
-  @if( editMode() ) {
+  @if( showWidgetList() ) {
   <div #widgetsList class="widgets-list">
     <app-widgets-list data-testid="widgets-list"></app-widgets-list>
   </div>

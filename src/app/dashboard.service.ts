@@ -41,12 +41,18 @@ const componentMap = [
 })
 export class DashboardService {
 
-  editMode$ = new BehaviorSubject(true);
+  editMode$ = new BehaviorSubject(false);
+  showWidgetsMenu$ = new BehaviorSubject(false);
   http = inject(HttpClient)
 
 
   toggleEditMode() {
     this.editMode$.next(!this.editMode$.getValue())
+  }
+
+  toggleWidgetsMenu() {
+    console.log('asd')
+    this.showWidgetsMenu$.next(!this.showWidgetsMenu$.getValue());
   }
 
   getWidgets(dashboardId: number): any {
