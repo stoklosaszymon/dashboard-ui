@@ -7,7 +7,7 @@ div>span {
 
 .chart {
     height: 70%;
-    width: 95%;
+    width: 100%;
 }
 
 .container {
@@ -17,6 +17,7 @@ div>span {
     height: 100%;
     container-name: main;
     container-type: inline-size;
+    overflow: hidden;
 }
 
 .details {
