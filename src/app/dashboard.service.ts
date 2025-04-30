@@ -41,7 +41,7 @@ const componentMap = [
 })
 export class DashboardService {
 
-  editMode$ = new BehaviorSubject(true);
+  editMode$ = new BehaviorSubject(false);
   showWidgetsMenu$ = new BehaviorSubject(false);
   http = inject(HttpClient)
   widgets$ = new BehaviorSubject<Widget[]>([] as Widget[]);

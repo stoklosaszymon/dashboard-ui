@@ -6,7 +6,8 @@ import { CoinComponent } from "../widgets/coin/coin.component"
 import { By } from "@angular/platform-browser"
 import { WidgetWrapperComponent } from "../widget-wrapper/widget-wrapper.component"
 import { DashboardService } from "../../dashboard.service"
-import { of } from "rxjs"
+import { BehaviorSubject, of } from "rxjs"
+import { Widget } from "../../types/widget"
 
 ResizeObserver = jest.fn().mockImplementation(() => ({
     observe: jest.fn(),
@@ -15,18 +16,29 @@ ResizeObserver = jest.fn().mockImplementation(() => ({
 }))
 Element.prototype.getAnimations = jest.fn(() => []);
 
-describe('DashboardComponent', () =>{
+describe('DashboardComponent', () => {
     let component: DashboardComponent
     let fixture: ComponentFixture<DashboardComponent>
     let service: DashboardService
+    let dashServiceMock: any
 
-    beforeEach( async () => {
+    beforeEach(async () => {
+        let newWidgets = [
+            { id: 3, name: 'Widget', component: CoinComponent, config: { width: '100px', height: '100px' } },
+            { id: 4, name: 'Widget2', component: CoinComponent, config: { width: '100px', height: '100px' } }
+        ];
+
+        dashServiceMock = {
+            getWidgets: jest.fn().mockReturnValue(of([...newWidgets])),
+            editMode$: new BehaviorSubject<boolean>(false).asObservable(),
+            widgets$: new BehaviorSubject<Widget[]>([...newWidgets])
+        };
         await TestBed.configureTestingModule({
             imports: [WidgetWrapperComponent],
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
-                DashboardService
+                { provide: DashboardService, useValue: dashServiceMock },
             ]
         }).compileComponents()
         fixture = TestBed.createComponent(DashboardComponent)
@@ -38,15 +50,10 @@ describe('DashboardComponent', () =>{
         expect(component).toBeTruthy()
     })
 
-    it('should display components', () => {
-        let newWidgets = [
-            { id: 3, name: 'Widget', component: CoinComponent, config: { width: '100px', height: '100px' } },
-            { id: 4, name: 'Widget2', component: CoinComponent, config: { width: '100px', height: '100px' } }
-        ];
-        jest.spyOn(service, 'getWidgets').mockReturnValue(of(newWidgets))
+    it('should display widgets', () => {
         fixture.detectChanges()
         const widgets = fixture.debugElement.queryAll(By.directive(WidgetWrapperComponent))
-        expect(widgets.length).toEqual(newWidgets.length)
+        expect(widgets.length).toEqual(2)
         expect(service.getWidgets).toHaveBeenCalled()
     })
 })

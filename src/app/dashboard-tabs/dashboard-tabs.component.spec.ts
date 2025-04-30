@@ -11,6 +11,7 @@ import { BehaviorSubject, Subject, of } from 'rxjs';
 import { CoinComponent } from '../components/widgets/coin/coin.component';
 import { TabDirective } from './tab.directive';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Widget } from '../types/widget';
 
 ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
@@ -35,7 +36,8 @@ describe('DashboardTabsComponent', () => {
     editModeSubject = new BehaviorSubject<boolean>(true);
     dashServiceMock = {
       getWidgets: jest.fn().mockReturnValue(of([...widgets])),
-      editMode$: editModeSubject.asObservable()
+      editMode$: editModeSubject.asObservable(),
+      widgets$: new BehaviorSubject<Widget[]>([]) 
     };
 
     tabServiceMock = {
