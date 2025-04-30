@@ -4,10 +4,12 @@ import { Widget } from '../types/widget';
 import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../dashboard.service';
 import { switchMap, tap } from 'rxjs';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-config-dialog',
-  imports: [FormsModule],
+  imports: [FormsModule, MatInputModule, MatButtonModule],
   templateUrl: './config-dialog.component.html',
   styleUrl: './config-dialog.component.scss'
 })

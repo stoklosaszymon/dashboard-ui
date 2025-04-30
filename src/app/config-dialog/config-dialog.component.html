@@ -2,7 +2,12 @@
     <p>
         {{name()}}{{id()}} dasboard: {{dashboardId()}}
     </p>
-    <input type="text" [(ngModel)]="width" />
-    <input type="text" [(ngModel)]="height" />
-    <button (click)="save()">save</button>
+    <mat-form-field>
+        <mat-label>Width</mat-label>
+        <input type="text" matInput [(ngModel)]="width" />
+    </mat-form-field>
+    <mat-form-field>
+        <input type="text" matInput [(ngModel)]="height" />
+    </mat-form-field>
+    <button mat-stroked-button (click)="save()">save</button>
 </div>

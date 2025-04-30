@@ -2,4 +2,7 @@
 .container { 
     min-width: 400px;
     min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px 10px 10px;
 }
