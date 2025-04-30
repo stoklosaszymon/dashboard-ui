@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, effect, inject, signal } from '@angular/core';
-import { BehaviorSubject, Observable, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, tap } from 'rxjs';
 import { Widget } from './types/widget';
 import { WidgetWeatherComponent } from './components/widgets/widget-weather/widget-weather.component';
 import { StockWidget } from './components/widgets/stock-widget/stock-widget.component';
@@ -44,6 +44,7 @@ export class DashboardService {
   editMode$ = new BehaviorSubject(true);
   showWidgetsMenu$ = new BehaviorSubject(false);
   http = inject(HttpClient)
+  widgets$ = new BehaviorSubject<Widget[]>([] as Widget[]);
 
 
   toggleEditMode() {
@@ -57,13 +58,21 @@ export class DashboardService {
 
   getWidgets(dashboardId: number): any {
     return this.http.get<Widget[]>(`http://localhost:3000/widgets/${dashboardId}`).pipe(
-      map(resp => resp.map(config => ({ ...config, component: componentMap.find(m => m.name == config.component)?.component })))
+      map(resp => resp.map(config => ({ ...config, component: componentMap.find(m => m.name == config.component)?.component }))),
+      tap( (resp) => this.widgets$.next(resp))
     )
   }
 
   update(widgets: any): any {
     return this.http.post<Widget[]>('http://localhost:3000/widgets', widgets).pipe(
       map(resp => resp.map(config => ({ ...config, component: componentMap.find(m => m.name == config.component)?.component })))
+    )
+  }
+
+  updateConfig(widget: Widget) {
+    console.log('updating')
+    return this.http.post<Widget[]>('http://localhost:3000/widgets/widget', widget).pipe(
+      tap( response => console.log('res', response))
     )
   }
 }

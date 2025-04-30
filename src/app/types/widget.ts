@@ -3,6 +3,7 @@ export interface Widget {
   name: string,
   component: any,
   config: WidgetConfig
+  dashboardId?: number
 }
 
 export interface WidgetConfig {

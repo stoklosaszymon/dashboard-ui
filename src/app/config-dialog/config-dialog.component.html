@@ -1,5 +1,8 @@
 <div class="container">
     <p>
-        {{name()}}{{id()}}
-   </p>
+        {{name()}}{{id()}} dasboard: {{dashboardId()}}
+    </p>
+    <input type="text" [(ngModel)]="width" />
+    <input type="text" [(ngModel)]="height" />
+    <button (click)="save()">save</button>
 </div>
