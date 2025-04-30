@@ -2,7 +2,7 @@ import { Component, ElementRef, computed, effect, inject, input, signal, viewChi
 import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { WidgetWrapperComponent } from '../widget-wrapper/widget-wrapper.component';
 import { CommonModule } from '@angular/common';
-import { Subject, debounceTime, map, skip, tap } from 'rxjs';
+import { Subject, debounceTime, map, skip, switchMap, tap } from 'rxjs';
 import { DashboardService } from '../../dashboard.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
@@ -35,8 +35,13 @@ export class DashboardComponent {
   })
 
   ngOnInit() {
-    this.dashboardService.getWidgets(this.dashboardId()).subscribe((resp: any) => {
-      this.widgets.set(resp)
+    this.dashboardService.getWidgets(this.dashboardId()).pipe(
+      switchMap( () => this.dashboardService.widgets$.asObservable().pipe(
+        tap ( (resp) => this.widgets.set(resp))
+      )),
+    )
+    .subscribe((resp: any) => {
+      console.log('widgets: ', this.widgets())
     })
 
     this.observer = new ResizeObserver(entries => {
@@ -67,8 +72,7 @@ export class DashboardComponent {
         newWidgets[index] = { ...newWidgets[index], config };
   
         if (this.editMode()) {
-          this.widgets.update(() => newWidgets);
-          this.updateWidgets();
+          this.updateWidgets(newWidgets);
         }
       })
     ).subscribe();
@@ -101,7 +105,7 @@ export class DashboardComponent {
 
   removeWidget(id: number) {
     this.widgets.set(this.widgets().filter(w => w.id != id));
-    this.updateWidgets();
+    this.updateWidgets(this.widgets());
   }
 
 
@@ -131,11 +135,11 @@ export class DashboardComponent {
         ...widgets.slice(event.currentIndex)
       ])
     }
-    this.updateWidgets();
+    this.updateWidgets(this.widgets());
   }
 
-  updateWidgets() {
-    const req = this.widgets().map(w => ({ ...w, component: w.component.name, dashboardId: this.dashboardId() }));
+  updateWidgets(widgets: Widget[]) {
+    const req = widgets.map(w => ({ ...w, component: w.component.name, dashboardId: this.dashboardId() }));
     this.dashboardService.update(req).subscribe({
       next: (resp: any) => console.log('succesfully updated', resp),
       error: () => console.log('error occured updating widgets')
